@@ -23,6 +23,11 @@
     <!-- jhipster-needle-distribution-management -->
 
     <properties>
+
+
+            <sonar.organization>panysoft-latest</sonar.organization>
+            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
         <!-- Build properties -->
         <maven.version>3.8.5</maven.version>
         <java.version>11</java.version>
@@ -105,10 +110,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <properties>
-            <sonar.organization>panysoft-latest</sonar.organization>
-            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        </properties>
+
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
