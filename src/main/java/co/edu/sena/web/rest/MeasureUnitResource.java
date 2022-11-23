@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.MeasureUnitRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.MeasureUnitService;
 import co.edu.sena.service.dto.MeasureUnitDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class MeasureUnitResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/measure-units")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<MeasureUnitDTO> createMeasureUnit(@Valid @RequestBody MeasureUnitDTO measureUnitDTO) throws URISyntaxException {
         log.debug("REST request to save MeasureUnit : {}", measureUnitDTO);
         if (measureUnitDTO.getId() != null) {
@@ -79,6 +82,7 @@ public class MeasureUnitResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/measure-units/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<MeasureUnitDTO> updateMeasureUnit(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody MeasureUnitDTO measureUnitDTO
@@ -114,6 +118,7 @@ public class MeasureUnitResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/measure-units/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<MeasureUnitDTO> partialUpdateMeasureUnit(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody MeasureUnitDTO measureUnitDTO
@@ -145,6 +150,7 @@ public class MeasureUnitResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of measureUnits in body.
      */
     @GetMapping("/measure-units")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<MeasureUnitDTO>> getAllMeasureUnits(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of MeasureUnits");
         Page<MeasureUnitDTO> page = measureUnitService.findAll(pageable);
@@ -159,6 +165,7 @@ public class MeasureUnitResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the measureUnitDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/measure-units/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<MeasureUnitDTO> getMeasureUnit(@PathVariable Long id) {
         log.debug("REST request to get MeasureUnit : {}", id);
         Optional<MeasureUnitDTO> measureUnitDTO = measureUnitService.findOne(id);
@@ -172,6 +179,7 @@ public class MeasureUnitResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/measure-units/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteMeasureUnit(@PathVariable Long id) {
         log.debug("REST request to delete MeasureUnit : {}", id);
         measureUnitService.delete(id);

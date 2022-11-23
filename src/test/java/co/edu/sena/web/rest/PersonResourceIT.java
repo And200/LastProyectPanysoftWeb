@@ -10,6 +10,7 @@ import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.DocumentType;
 import co.edu.sena.domain.Person;
 import co.edu.sena.repository.PersonRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PersonService;
 import co.edu.sena.service.dto.PersonDTO;
 import co.edu.sena.service.mapper.PersonMapper;
@@ -38,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class PersonResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";

@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.DetailAmountRecipRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailAmountRecipService;
 import co.edu.sena.service.dto.DetailAmountRecipDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -59,6 +61,7 @@ public class DetailAmountRecipResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/detail-amount-recips")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailAmountRecipDTO> createDetailAmountRecip(@Valid @RequestBody DetailAmountRecipDTO detailAmountRecipDTO)
         throws URISyntaxException {
         log.debug("REST request to save DetailAmountRecip : {}", detailAmountRecipDTO);
@@ -83,6 +86,7 @@ public class DetailAmountRecipResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/detail-amount-recips/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailAmountRecipDTO> updateDetailAmountRecip(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody DetailAmountRecipDTO detailAmountRecipDTO
@@ -118,6 +122,7 @@ public class DetailAmountRecipResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/detail-amount-recips/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailAmountRecipDTO> partialUpdateDetailAmountRecip(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody DetailAmountRecipDTO detailAmountRecipDTO
@@ -150,6 +155,7 @@ public class DetailAmountRecipResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of detailAmountRecips in body.
      */
     @GetMapping("/detail-amount-recips")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<DetailAmountRecipDTO>> getAllDetailAmountRecips(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -172,6 +178,7 @@ public class DetailAmountRecipResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the detailAmountRecipDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/detail-amount-recips/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailAmountRecipDTO> getDetailAmountRecip(@PathVariable Long id) {
         log.debug("REST request to get DetailAmountRecip : {}", id);
         Optional<DetailAmountRecipDTO> detailAmountRecipDTO = detailAmountRecipService.findOne(id);
@@ -185,6 +192,7 @@ public class DetailAmountRecipResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/detail-amount-recips/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDetailAmountRecip(@PathVariable Long id) {
         log.debug("REST request to delete DetailAmountRecip : {}", id);
         detailAmountRecipService.delete(id);

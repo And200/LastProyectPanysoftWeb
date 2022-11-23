@@ -13,6 +13,7 @@ import co.edu.sena.domain.OrderPlaced;
 import co.edu.sena.domain.Product;
 import co.edu.sena.domain.Provider;
 import co.edu.sena.repository.DetailOrderRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailOrderService;
 import co.edu.sena.service.dto.DetailOrderDTO;
 import co.edu.sena.service.mapper.DetailOrderMapper;
@@ -45,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class DetailOrderResourceIT {
 
     private static final Integer DEFAULT_QUANTITY_ORDERED = 1;

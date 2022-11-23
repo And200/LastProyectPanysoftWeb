@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.InventoryRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.InventoryService;
 import co.edu.sena.service.dto.InventoryDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class InventoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/inventories")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<InventoryDTO> createInventory(@Valid @RequestBody InventoryDTO inventoryDTO) throws URISyntaxException {
         log.debug("REST request to save Inventory : {}", inventoryDTO);
         if (inventoryDTO.getId() != null) {
@@ -79,6 +82,7 @@ public class InventoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/inventories/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<InventoryDTO> updateInventory(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody InventoryDTO inventoryDTO
@@ -114,6 +118,7 @@ public class InventoryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/inventories/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<InventoryDTO> partialUpdateInventory(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody InventoryDTO inventoryDTO
@@ -146,6 +151,7 @@ public class InventoryResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of inventories in body.
      */
     @GetMapping("/inventories")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<InventoryDTO>> getAllInventories(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -168,6 +174,7 @@ public class InventoryResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the inventoryDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/inventories/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<InventoryDTO> getInventory(@PathVariable Long id) {
         log.debug("REST request to get Inventory : {}", id);
         Optional<InventoryDTO> inventoryDTO = inventoryService.findOne(id);
@@ -181,6 +188,7 @@ public class InventoryResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/inventories/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteInventory(@PathVariable Long id) {
         log.debug("REST request to delete Inventory : {}", id);
         inventoryService.delete(id);

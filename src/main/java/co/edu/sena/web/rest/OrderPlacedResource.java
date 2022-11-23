@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.OrderPlacedRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.OrderPlacedService;
 import co.edu.sena.service.dto.OrderPlacedDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class OrderPlacedResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/order-placeds")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<OrderPlacedDTO> createOrderPlaced(@Valid @RequestBody OrderPlacedDTO orderPlacedDTO) throws URISyntaxException {
         log.debug("REST request to save OrderPlaced : {}", orderPlacedDTO);
         if (orderPlacedDTO.getId() != null) {
@@ -79,6 +82,7 @@ public class OrderPlacedResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/order-placeds/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<OrderPlacedDTO> updateOrderPlaced(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody OrderPlacedDTO orderPlacedDTO
@@ -114,6 +118,7 @@ public class OrderPlacedResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/order-placeds/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<OrderPlacedDTO> partialUpdateOrderPlaced(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody OrderPlacedDTO orderPlacedDTO
@@ -145,6 +150,7 @@ public class OrderPlacedResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orderPlaceds in body.
      */
     @GetMapping("/order-placeds")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<OrderPlacedDTO>> getAllOrderPlaceds(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of OrderPlaceds");
         Page<OrderPlacedDTO> page = orderPlacedService.findAll(pageable);
@@ -159,6 +165,7 @@ public class OrderPlacedResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the orderPlacedDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/order-placeds/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<OrderPlacedDTO> getOrderPlaced(@PathVariable Long id) {
         log.debug("REST request to get OrderPlaced : {}", id);
         Optional<OrderPlacedDTO> orderPlacedDTO = orderPlacedService.findOne(id);
@@ -172,6 +179,7 @@ public class OrderPlacedResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/order-placeds/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteOrderPlaced(@PathVariable Long id) {
         log.debug("REST request to delete OrderPlaced : {}", id);
         orderPlacedService.delete(id);

@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.PresentationRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PresentationService;
 import co.edu.sena.service.dto.PresentationDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class PresentationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/presentations")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PresentationDTO> createPresentation(@Valid @RequestBody PresentationDTO presentationDTO)
         throws URISyntaxException {
         log.debug("REST request to save Presentation : {}", presentationDTO);
@@ -80,6 +83,7 @@ public class PresentationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/presentations/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PresentationDTO> updatePresentation(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PresentationDTO presentationDTO
@@ -115,6 +119,7 @@ public class PresentationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/presentations/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PresentationDTO> partialUpdatePresentation(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PresentationDTO presentationDTO
@@ -147,6 +152,15 @@ public class PresentationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of presentations in body.
      */
     @GetMapping("/presentations")
+    @PreAuthorize(
+        "hasAuthority('" +
+        AuthoritiesConstants.ADMIN +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.BAKER +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.CASHIER +
+        "')"
+    )
     public ResponseEntity<List<PresentationDTO>> getAllPresentations(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -169,6 +183,7 @@ public class PresentationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the presentationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/presentations/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PresentationDTO> getPresentation(@PathVariable Long id) {
         log.debug("REST request to get Presentation : {}", id);
         Optional<PresentationDTO> presentationDTO = presentationService.findOne(id);
@@ -182,6 +197,7 @@ public class PresentationResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/presentations/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deletePresentation(@PathVariable Long id) {
         log.debug("REST request to delete Presentation : {}", id);
         presentationService.delete(id);

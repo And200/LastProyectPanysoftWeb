@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.RecipRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.RecipService;
 import co.edu.sena.service.dto.RecipDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class RecipResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/recips")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<RecipDTO> createRecip(@Valid @RequestBody RecipDTO recipDTO) throws URISyntaxException {
         log.debug("REST request to save Recip : {}", recipDTO);
         if (recipDTO.getId() != null) {
@@ -79,6 +82,7 @@ public class RecipResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/recips/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<RecipDTO> updateRecip(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody RecipDTO recipDTO
@@ -114,6 +118,7 @@ public class RecipResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/recips/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<RecipDTO> partialUpdateRecip(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody RecipDTO recipDTO
@@ -145,6 +150,7 @@ public class RecipResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of recips in body.
      */
     @GetMapping("/recips")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<List<RecipDTO>> getAllRecips(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Recips");
         Page<RecipDTO> page = recipService.findAll(pageable);
@@ -159,6 +165,7 @@ public class RecipResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the recipDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/recips/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<RecipDTO> getRecip(@PathVariable Long id) {
         log.debug("REST request to get Recip : {}", id);
         Optional<RecipDTO> recipDTO = recipService.findOne(id);
@@ -172,6 +179,7 @@ public class RecipResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/recips/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<Void> deleteRecip(@PathVariable Long id) {
         log.debug("REST request to delete Recip : {}", id);
         recipService.delete(id);

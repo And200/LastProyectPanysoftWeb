@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.ClientRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.ClientService;
 import co.edu.sena.service.dto.ClientDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class ClientResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/clients")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<ClientDTO> createClient(@Valid @RequestBody ClientDTO clientDTO) throws URISyntaxException {
         log.debug("REST request to save Client : {}", clientDTO);
         if (clientDTO.getId() != null) {
@@ -79,6 +82,7 @@ public class ClientResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/clients/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<ClientDTO> updateClient(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ClientDTO clientDTO
@@ -114,6 +118,7 @@ public class ClientResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/clients/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<ClientDTO> partialUpdateClient(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ClientDTO clientDTO
@@ -146,6 +151,7 @@ public class ClientResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of clients in body.
      */
     @GetMapping("/clients")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<List<ClientDTO>> getAllClients(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -168,6 +174,7 @@ public class ClientResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the clientDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/clients/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<ClientDTO> getClient(@PathVariable Long id) {
         log.debug("REST request to get Client : {}", id);
         Optional<ClientDTO> clientDTO = clientService.findOne(id);
@@ -181,6 +188,7 @@ public class ClientResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/clients/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         log.debug("REST request to delete Client : {}", id);
         clientService.delete(id);

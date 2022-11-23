@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.PurchaseReceiptRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PurchaseReceiptService;
 import co.edu.sena.service.dto.PurchaseReceiptDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class PurchaseReceiptResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/purchase-receipts")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<PurchaseReceiptDTO> createPurchaseReceipt(@Valid @RequestBody PurchaseReceiptDTO purchaseReceiptDTO)
         throws URISyntaxException {
         log.debug("REST request to save PurchaseReceipt : {}", purchaseReceiptDTO);
@@ -80,6 +83,7 @@ public class PurchaseReceiptResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/purchase-receipts/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<PurchaseReceiptDTO> updatePurchaseReceipt(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PurchaseReceiptDTO purchaseReceiptDTO
@@ -115,6 +119,7 @@ public class PurchaseReceiptResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/purchase-receipts/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<PurchaseReceiptDTO> partialUpdatePurchaseReceipt(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PurchaseReceiptDTO purchaseReceiptDTO
@@ -147,6 +152,7 @@ public class PurchaseReceiptResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of purchaseReceipts in body.
      */
     @GetMapping("/purchase-receipts")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<List<PurchaseReceiptDTO>> getAllPurchaseReceipts(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -169,6 +175,7 @@ public class PurchaseReceiptResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the purchaseReceiptDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/purchase-receipts/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<PurchaseReceiptDTO> getPurchaseReceipt(@PathVariable Long id) {
         log.debug("REST request to get PurchaseReceipt : {}", id);
         Optional<PurchaseReceiptDTO> purchaseReceiptDTO = purchaseReceiptService.findOne(id);
@@ -182,6 +189,7 @@ public class PurchaseReceiptResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/purchase-receipts/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<Void> deletePurchaseReceipt(@PathVariable Long id) {
         log.debug("REST request to delete PurchaseReceipt : {}", id);
         purchaseReceiptService.delete(id);

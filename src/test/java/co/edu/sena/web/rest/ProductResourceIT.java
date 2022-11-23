@@ -12,6 +12,7 @@ import co.edu.sena.domain.Presentation;
 import co.edu.sena.domain.Product;
 import co.edu.sena.domain.Provider;
 import co.edu.sena.repository.ProductRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.ProductService;
 import co.edu.sena.service.dto.ProductDTO;
 import co.edu.sena.service.mapper.ProductMapper;
@@ -40,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN, AuthoritiesConstants.BAKER })
 class ProductResourceIT {
 
     private static final String DEFAULT_PRODUCT_NAME = "AAAAAAAAAA";

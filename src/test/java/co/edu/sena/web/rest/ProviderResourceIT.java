@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.Provider;
 import co.edu.sena.repository.ProviderRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.dto.ProviderDTO;
 import co.edu.sena.service.mapper.ProviderMapper;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class ProviderResourceIT {
 
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";

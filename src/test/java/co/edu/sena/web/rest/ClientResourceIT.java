@@ -10,6 +10,7 @@ import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.Client;
 import co.edu.sena.domain.Person;
 import co.edu.sena.repository.ClientRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.ClientService;
 import co.edu.sena.service.dto.ClientDTO;
 import co.edu.sena.service.mapper.ClientMapper;
@@ -38,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class ClientResourceIT {
 
     private static final String ENTITY_API_URL = "/api/clients";

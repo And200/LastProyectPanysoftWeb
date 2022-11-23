@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.MeasureUnit;
 import co.edu.sena.repository.MeasureUnitRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.dto.MeasureUnitDTO;
 import co.edu.sena.service.mapper.MeasureUnitMapper;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class MeasureUnitResourceIT {
 
     private static final String DEFAULT_NAME_UNIT = "AAAAAAAAAA";

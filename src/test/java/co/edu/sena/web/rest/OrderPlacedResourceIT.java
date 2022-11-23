@@ -9,6 +9,7 @@ import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.OrderPlaced;
 import co.edu.sena.domain.enumeration.StateOrder;
 import co.edu.sena.repository.OrderPlacedRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.dto.OrderPlacedDTO;
 import co.edu.sena.service.mapper.OrderPlacedMapper;
 import java.util.List;
@@ -29,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class OrderPlacedResourceIT {
 
     private static final StateOrder DEFAULT_ORDER_PLACED_STATE = StateOrder.DELIVERED;

@@ -11,6 +11,7 @@ import co.edu.sena.domain.Employee;
 import co.edu.sena.domain.Person;
 import co.edu.sena.domain.User;
 import co.edu.sena.repository.EmployeeRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.EmployeeService;
 import co.edu.sena.service.dto.EmployeeDTO;
 import co.edu.sena.service.mapper.EmployeeMapper;
@@ -39,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class EmployeeResourceIT {
 
     private static final String ENTITY_API_URL = "/api/employees";
