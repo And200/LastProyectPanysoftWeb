@@ -2,31 +2,31 @@
   "panysoftApp": {
     "product": {
       "home": {
-        "title": "Products",
+        "title": "Productos",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Product",
-        "createOrEditLabel": "Crear o editar Product",
-        "notFound": "Ningún Products encontrado"
+        "createLabel": "Crear nuevo Producto",
+        "createOrEditLabel": "Crear o editar Producto",
+        "notFound": "Ningún Producto encontrado"
       },
-      "created": "Un nuevo Product ha sido creado con el identificador {{ param }}",
-      "updated": "Un Product ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Product ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Producto ha sido creado con el identificador {{ param }}",
+      "updated": "Un Producto ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Producto ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Product {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Producto {{ id }}?"
       },
       "detail": {
-        "title": "Product"
+        "title": "Producto"
       },
       "id": "ID",
-      "productName": "Product Name",
-      "buyPrice": "Buy Price",
-      "detailSale": "Detail Sale",
-      "inventory": "Inventory",
-      "detailAmountRecip": "Detail Amount Recip",
-      "detailOrder": "Detail Order",
-      "category": "Category",
-      "provider": "Provider",
-      "presentation": "Presentation"
+      "productName": "Producto Nombre",
+      "buyPrice": "Precio De Compra",
+      "detailSale": "Detalle De Venta",
+      "inventory": "Inventario",
+      "detailAmountRecip": "Detalle Cantidad Receta",
+      "detailOrder": "Detalle De orden",
+      "category": "Categoria",
+      "provider": "Proveedor",
+      "presentation": "Presentacion"
     }
   }
 }

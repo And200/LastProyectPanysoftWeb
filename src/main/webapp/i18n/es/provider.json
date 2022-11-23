@@ -2,29 +2,29 @@
   "panysoftApp": {
     "provider": {
       "home": {
-        "title": "Providers",
+        "title": "Proveedores",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Provider",
-        "createOrEditLabel": "Crear o editar Provider",
-        "notFound": "Ningún Providers encontrado"
+        "createLabel": "Crear nuevo Proveedor",
+        "createOrEditLabel": "Crear o editar Proveedor",
+        "notFound": "Ningún Proveedor encontrado"
       },
-      "created": "Un nuevo Provider ha sido creado con el identificador {{ param }}",
-      "updated": "Un Provider ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Provider ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Proveedor ha sido creado con el identificador {{ param }}",
+      "updated": "Un Proveedor ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Proveedor ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Provider {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Proveedor {{ id }}?"
       },
       "detail": {
-        "title": "Provider"
+        "title": "Proveedor"
       },
       "id": "ID",
       "email": "Email",
-      "adress": "Adress",
+      "adress": "Direccion",
       "nit": "Nit",
-      "name": "Name",
-      "phone": "Phone",
-      "product": "Product",
-      "detailOrder": "Detail Order"
+      "name": "Nombre",
+      "phone": "Telefono",
+      "product": "Producto",
+      "detailOrder": "Detalle De Orden"
     }
   }
 }

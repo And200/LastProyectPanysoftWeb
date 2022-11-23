@@ -4,24 +4,24 @@
       "home": {
         "title": "Document Types",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Document Type",
-        "createOrEditLabel": "Crear o editar Document Type",
-        "notFound": "Ningún Document Types encontrado"
+        "createLabel": "Crear nuevo Tipo De Documento",
+        "createOrEditLabel": "Crear o editar Tipo De Documento",
+        "notFound": "Ningún Tipo De Documento encontrado"
       },
-      "created": "Un nuevo Document Type ha sido creado con el identificador {{ param }}",
-      "updated": "Un Document Type ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Document Type ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Tipo De Documento ha sido creado con el identificador {{ param }}",
+      "updated": "Un Tipo De Documento ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Tipo De Documento ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Document Type {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Tipo De Documento {{ id }}?"
       },
       "detail": {
-        "title": "Document Type"
+        "title": "Tipo De Documento"
       },
       "id": "ID",
-      "documentName": "Document Name",
-      "initials": "Initials",
-      "stateDocumentType": "State Document Type",
-      "person": "Person"
+      "documentName": "Tipo De Documento",
+      "initials": "iniciales",
+      "stateDocumentType": "estado Tipo De Documento",
+      "person": "Persona"
     }
   }
 }

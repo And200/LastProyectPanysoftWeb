@@ -2,25 +2,25 @@
   "panysoftApp": {
     "detailAmountRecip": {
       "home": {
-        "title": "Detail Amount Recips",
+        "title": "Detalle Cantidad Receta",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Detail Amount Recip",
-        "createOrEditLabel": "Crear o editar Detail Amount Recip",
-        "notFound": "Ningún Detail Amount Recips encontrado"
+        "createLabel": "Crear nuevo Detalle Cantidad Receta  ",
+        "createOrEditLabel": "Crear o editar Detalle Cantidad Receta",
+        "notFound": "Ningún Detalle de Cantidad Receta encontrado"
       },
-      "created": "Un nuevo Detail Amount Recip ha sido creado con el identificador {{ param }}",
-      "updated": "Un Detail Amount Recip ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Detail Amount Recip ha sido eliminado con el identificador {{ param }}",
+      "created": "Un Detalle Cantidad Receta ha sido creado con el identificador {{ param }}",
+      "updated": "Un Detalle Cantidad Receta ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Detalle Cantidad Receta ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Detail Amount Recip {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el Detalle Cantidad Receta {{ id }}?"
       },
       "detail": {
-        "title": "Detail Amount Recip"
+        "title": "Detalle Cantidad Receta"
       },
       "id": "ID",
-      "amountProduct": "Amount Product",
-      "product": "Product",
-      "recip": "Recip"
+      "amountProduct": "Cantidad Producto",
+      "product": "Producto",
+      "recip": "Receta"
     }
   }
 }

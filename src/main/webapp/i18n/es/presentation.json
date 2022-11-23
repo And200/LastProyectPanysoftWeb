@@ -2,26 +2,26 @@
   "panysoftApp": {
     "presentation": {
       "home": {
-        "title": "Presentations",
+        "title": "Presentaciones",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Presentation",
-        "createOrEditLabel": "Crear o editar Presentation",
-        "notFound": "Ningún Presentations encontrado"
+        "createLabel": "Crear nuevo Presentacion",
+        "createOrEditLabel": "Crear o editar Presentacion",
+        "notFound": "Ninguna Presentacion encontrado"
       },
-      "created": "Un nuevo Presentation ha sido creado con el identificador {{ param }}",
-      "updated": "Un Presentation ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Presentation ha sido eliminado con el identificador {{ param }}",
+      "created": "Una nueva Presentacion ha sido creado con el identificador {{ param }}",
+      "updated": "Una Presentacion ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Una Presentacion ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Presentation {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Presentacion {{ id }}?"
       },
       "detail": {
-        "title": "Presentation"
+        "title": "Presentacion"
       },
       "id": "ID",
-      "presentation": "Presentation",
-      "detailSale": "Detail Sale",
-      "product": "Product",
-      "measureUnit": "Measure Unit"
+      "presentation": "Presentacion",
+      "detailSale": "Detalle De Venta",
+      "product": "Producto",
+      "measureUnit": "Unidad De medida"
     }
   }
 }

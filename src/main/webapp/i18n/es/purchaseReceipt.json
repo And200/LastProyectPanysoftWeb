@@ -2,27 +2,27 @@
   "panysoftApp": {
     "purchaseReceipt": {
       "home": {
-        "title": "Purchase Receipts",
+        "title": "Recibo De Compra",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Purchase Receipt",
-        "createOrEditLabel": "Crear o editar Purchase Receipt",
-        "notFound": "Ningún Purchase Receipts encontrado"
+        "createLabel": "Crear nuevo Recibo De Compra",
+        "createOrEditLabel": "Crear o editar Recibo De Compra",
+        "notFound": "Ningún Recibo De Compraencontrado"
       },
-      "created": "Un nuevo Purchase Receipt ha sido creado con el identificador {{ param }}",
-      "updated": "Un Purchase Receipt ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Purchase Receipt ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Recibo De Compra Receipt ha sido creado con el identificador {{ param }}",
+      "updated": "Un Recibo De Compra ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Recibo De Compra ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Purchase Receipt {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Recibo De Compra {{ id }}?"
       },
       "detail": {
-        "title": "Purchase Receipt"
+        "title": "Recibo De Compra"
       },
       "id": "ID",
-      "date": "Date",
-      "totalSale": "Total Sale",
-      "employee": "Employee",
-      "detailSale": "Detail Sale",
-      "client": "Client"
+      "date": "Fecha",
+      "totalSale": "Total Venta",
+      "employee": "Empleado",
+      "detailSale": "Detalle De Venta",
+      "client": "Cliente"
     }
   }
 }

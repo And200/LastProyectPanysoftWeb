@@ -2,25 +2,25 @@
   "panysoftApp": {
     "recip": {
       "home": {
-        "title": "Recips",
+        "title": "Recetas",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Recip",
-        "createOrEditLabel": "Crear o editar Recip",
-        "notFound": "Ningún Recips encontrado"
+        "createLabel": "Crear nueva Receta",
+        "createOrEditLabel": "Crear o editar Receta",
+        "notFound": "Ninguna Receta encontrado"
       },
-      "created": "Un nuevo Recip ha sido creado con el identificador {{ param }}",
-      "updated": "Un Recip ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Recip ha sido eliminado con el identificador {{ param }}",
+      "created": "Una nueva Receta ha sido creado con el identificador {{ param }}",
+      "updated": "Una Receta ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Una Receta ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Recip {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la Receta {{ id }}?"
       },
       "detail": {
-        "title": "Recip"
+        "title": "Receta"
       },
       "id": "ID",
-      "nameRecip": "Name Recip",
-      "estimatedPricePreparation": "Estimated Price Preparation",
-      "detailAmountRecip": "Detail Amount Recip"
+      "nameRecip": "Name Receta",
+      "estimatedPricePreparation": "Estimado Precio De Preparación",
+      "detailAmountRecip": "Detalle Cantidad Receta"
     }
   }
 }

@@ -2,25 +2,25 @@
   "panysoftApp": {
     "employee": {
       "home": {
-        "title": "Employees",
+        "title": "Empleados",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Employee",
-        "createOrEditLabel": "Crear o editar Employee",
-        "notFound": "Ningún Employees encontrado"
+        "createLabel": "Crear nuevo Empleado",
+        "createOrEditLabel": "Crear o editar Empleado",
+        "notFound": "Ningún Empleado encontrado"
       },
-      "created": "Un nuevo Employee ha sido creado con el identificador {{ param }}",
-      "updated": "Un Employee ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Employee ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Empleado ha sido creado con el identificador {{ param }}",
+      "updated": "Un Empleado ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Empleado ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Employee {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Empleado {{ id }}?"
       },
       "detail": {
-        "title": "Employee"
+        "title": "Empleado"
       },
       "id": "ID",
       "user": "User",
-      "purchaseReceipt": "Purchase Receipt",
-      "person": "Person"
+      "purchaseReceipt": "Recibo De Compra",
+      "person": "Persona"
     }
   }
 }

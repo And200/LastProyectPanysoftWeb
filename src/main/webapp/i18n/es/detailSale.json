@@ -2,26 +2,26 @@
   "panysoftApp": {
     "detailSale": {
       "home": {
-        "title": "Detail Sales",
+        "title": "Detalle De Venta",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Detail Sale",
-        "createOrEditLabel": "Crear o editar Detail Sale",
-        "notFound": "Ningún Detail Sales encontrado"
+        "createLabel": "Crear nuevo Detalle De Venta",
+        "createOrEditLabel": "Crear o editar Detalle De Venta",
+        "notFound": "Ningún Detalle De Venta encontrado"
       },
-      "created": "Un nuevo Detail Sale ha sido creado con el identificador {{ param }}",
-      "updated": "Un Detail Sale ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Detail Sale ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Detalle De Venta ha sido creado con el identificador {{ param }}",
+      "updated": "Un Detalle De Venta ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Detalle De Venta ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Detail Sale {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Detalle De Venta {{ id }}?"
       },
       "detail": {
-        "title": "Detail Sale"
+        "title": "Detalle De Venta"
       },
       "id": "ID",
-      "productAmount": "Product Amount",
-      "purchaseReceipt": "Purchase Receipt",
-      "product": "Product",
-      "presentation": "Presentation"
+      "productAmount": "Producto Cantidad",
+      "purchaseReceipt": "Recibo de Compra",
+      "product": "Producto",
+      "presentation": "Presentacion"
     }
   }
 }
