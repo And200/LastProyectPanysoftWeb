@@ -24,7 +24,7 @@ public class OrderPlaced implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_placed_state", nullable = false)
+    @Column(name = "order_placed_state", nullable = false, unique = true)
     private StateOrder orderPlacedState;
 
     @OneToMany(mappedBy = "orderPlaced")

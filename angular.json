@@ -100,6 +100,7 @@
   },
   "defaultProject": "panysoft",
   "cli": {
+    "analytics": "a4cb99a8-5d0a-4f1f-b8b1-65645abeb675",
     "cache": {
       "enabled": true,
       "path": "./target/angular/",
