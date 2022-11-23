@@ -1,0 +1,38 @@
+{
+  "applications": ["panysoft"],
+  "changelogDate": "20221123020943",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "detail_amount_recip",
+  "fields": [
+    {
+      "fieldName": "amountProduct",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "DetailAmountRecip",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "productName",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "detailAmountRecip",
+      "relationshipName": "product",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "nameRecip",
+      "otherEntityName": "recip",
+      "otherEntityRelationshipName": "detailAmountRecip",
+      "relationshipName": "recip",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceImpl"
+}

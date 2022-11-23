@@ -1,0 +1,26 @@
+{
+  "panysoftApp": {
+    "detailAmountRecip": {
+      "home": {
+        "title": "Detail Amount Recips",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Detail Amount Recip",
+        "createOrEditLabel": "Crear o editar Detail Amount Recip",
+        "notFound": "Ningún Detail Amount Recips encontrado"
+      },
+      "created": "Un nuevo Detail Amount Recip ha sido creado con el identificador {{ param }}",
+      "updated": "Un Detail Amount Recip ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Detail Amount Recip ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Detail Amount Recip {{ id }}?"
+      },
+      "detail": {
+        "title": "Detail Amount Recip"
+      },
+      "id": "ID",
+      "amountProduct": "Amount Product",
+      "product": "Product",
+      "recip": "Recip"
+    }
+  }
+}

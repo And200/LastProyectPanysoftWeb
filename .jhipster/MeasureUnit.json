@@ -1,0 +1,29 @@
+{
+  "applications": ["panysoft"],
+  "changelogDate": "20221123020243",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "measure_unit",
+  "fields": [
+    {
+      "fieldName": "nameUnit",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "required", "unique"],
+      "fieldValidateRulesMaxlength": "30"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "MeasureUnit",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "presentation",
+      "otherEntityRelationshipName": "measureUnit",
+      "relationshipName": "presentation",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

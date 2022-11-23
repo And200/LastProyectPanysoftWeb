@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="recip">
+      <h2 data-cy="recipDetailsHeading"><span panysoftTranslate="panysoftApp.recip.detail.title">Recip</span></h2>
+
+      <hr />
+
+      <panysoft-alert-error></panysoft-alert-error>
+
+      <panysoft-alert></panysoft-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span panysoftTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ recip.id }}</span>
+        </dd>
+        <dt><span panysoftTranslate="panysoftApp.recip.nameRecip">Name Recip</span></dt>
+        <dd>
+          <span>{{ recip.nameRecip }}</span>
+        </dd>
+        <dt><span panysoftTranslate="panysoftApp.recip.estimatedPricePreparation">Estimated Price Preparation</span></dt>
+        <dd>
+          <span>{{ recip.estimatedPricePreparation }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span panysoftTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/recip', recip.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span panysoftTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

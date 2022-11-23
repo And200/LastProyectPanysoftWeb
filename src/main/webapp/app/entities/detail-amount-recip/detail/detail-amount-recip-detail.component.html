@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="detailAmountRecip">
+      <h2 data-cy="detailAmountRecipDetailsHeading">
+        <span panysoftTranslate="panysoftApp.detailAmountRecip.detail.title">Detail Amount Recip</span>
+      </h2>
+
+      <hr />
+
+      <panysoft-alert-error></panysoft-alert-error>
+
+      <panysoft-alert></panysoft-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span panysoftTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ detailAmountRecip.id }}</span>
+        </dd>
+        <dt><span panysoftTranslate="panysoftApp.detailAmountRecip.amountProduct">Amount Product</span></dt>
+        <dd>
+          <span>{{ detailAmountRecip.amountProduct }}</span>
+        </dd>
+        <dt><span panysoftTranslate="panysoftApp.detailAmountRecip.product">Product</span></dt>
+        <dd>
+          <div *ngIf="detailAmountRecip.product">
+            <a [routerLink]="['/product', detailAmountRecip.product?.id, 'view']">{{ detailAmountRecip.product?.productName }}</a>
+          </div>
+        </dd>
+        <dt><span panysoftTranslate="panysoftApp.detailAmountRecip.recip">Recip</span></dt>
+        <dd>
+          <div *ngIf="detailAmountRecip.recip">
+            <a [routerLink]="['/recip', detailAmountRecip.recip?.id, 'view']">{{ detailAmountRecip.recip?.nameRecip }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span panysoftTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/detail-amount-recip', detailAmountRecip.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span panysoftTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

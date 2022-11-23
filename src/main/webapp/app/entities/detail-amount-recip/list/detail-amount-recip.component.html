@@ -1,0 +1,114 @@
+<div>
+  <h2 id="page-heading" data-cy="DetailAmountRecipHeading">
+    <span panysoftTranslate="panysoftApp.detailAmountRecip.home.title">Detail Amount Recips</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span panysoftTranslate="panysoftApp.detailAmountRecip.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-detail-amount-recip"
+        [routerLink]="['/detail-amount-recip/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span panysoftTranslate="panysoftApp.detailAmountRecip.home.createLabel"> Create a new Detail Amount Recip </span>
+      </button>
+    </div>
+  </h2>
+
+  <panysoft-alert-error></panysoft-alert-error>
+
+  <panysoft-alert></panysoft-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="detailAmountRecips?.length === 0">
+    <span panysoftTranslate="panysoftApp.detailAmountRecip.home.notFound">No detailAmountRecips found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="detailAmountRecips && detailAmountRecips.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr panysoftSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" panysoftSortBy="id"><span panysoftTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" panysoftSortBy="amountProduct">
+            <span panysoftTranslate="panysoftApp.detailAmountRecip.amountProduct">Amount Product</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" panysoftSortBy="product.productName">
+            <span panysoftTranslate="panysoftApp.detailAmountRecip.product">Product</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" panysoftSortBy="recip.nameRecip">
+            <span panysoftTranslate="panysoftApp.detailAmountRecip.recip">Recip</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detailAmountRecip of detailAmountRecips; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/detail-amount-recip', detailAmountRecip.id, 'view']">{{ detailAmountRecip.id }}</a>
+          </td>
+          <td>{{ detailAmountRecip.amountProduct }}</td>
+          <td>
+            <div *ngIf="detailAmountRecip.product">
+              <a [routerLink]="['/product', detailAmountRecip.product?.id, 'view']">{{ detailAmountRecip.product?.productName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="detailAmountRecip.recip">
+              <a [routerLink]="['/recip', detailAmountRecip.recip?.id, 'view']">{{ detailAmountRecip.recip?.nameRecip }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/detail-amount-recip', detailAmountRecip.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" panysoftTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/detail-amount-recip', detailAmountRecip.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" panysoftTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(detailAmountRecip)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" panysoftTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="detailAmountRecips && detailAmountRecips.length > 0">
+    <div class="d-flex justify-content-center">
+      <panysoft-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></panysoft-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

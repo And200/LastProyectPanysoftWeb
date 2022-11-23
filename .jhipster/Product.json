@@ -1,0 +1,76 @@
+{
+  "applications": ["panysoft"],
+  "changelogDate": "20221123020443",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "product",
+  "fields": [
+    {
+      "fieldName": "productName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "required", "unique"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "buyPrice",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Product",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "detailSale",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "detailSale",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "inventory",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "inventory",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "detailAmountRecip",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "detailAmountRecip",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "detailOrder",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "detailOrder",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "nameCategory",
+      "otherEntityName": "category",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "category",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "provider",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "provider",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "presentation",
+      "otherEntityName": "presentation",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "presentation",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,93 @@
+<div>
+  <h2 id="page-heading" data-cy="RecipHeading">
+    <span panysoftTranslate="panysoftApp.recip.home.title">Recips</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span panysoftTranslate="panysoftApp.recip.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-recip"
+        [routerLink]="['/recip/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span panysoftTranslate="panysoftApp.recip.home.createLabel"> Create a new Recip </span>
+      </button>
+    </div>
+  </h2>
+
+  <panysoft-alert-error></panysoft-alert-error>
+
+  <panysoft-alert></panysoft-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="recips?.length === 0">
+    <span panysoftTranslate="panysoftApp.recip.home.notFound">No recips found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="recips && recips.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr panysoftSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" panysoftSortBy="id"><span panysoftTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" panysoftSortBy="nameRecip">
+            <span panysoftTranslate="panysoftApp.recip.nameRecip">Name Recip</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" panysoftSortBy="estimatedPricePreparation">
+            <span panysoftTranslate="panysoftApp.recip.estimatedPricePreparation">Estimated Price Preparation</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let recip of recips; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/recip', recip.id, 'view']">{{ recip.id }}</a>
+          </td>
+          <td>{{ recip.nameRecip }}</td>
+          <td>{{ recip.estimatedPricePreparation }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/recip', recip.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" panysoftTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/recip', recip.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" panysoftTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(recip)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" panysoftTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="recips && recips.length > 0">
+    <div class="d-flex justify-content-center">
+      <panysoft-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></panysoft-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
