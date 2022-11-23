@@ -105,6 +105,10 @@
     </dependencyManagement>
 
     <dependencies>
+        <properties>
+            <sonar.organization>panysoft-latest</sonar.organization>
+            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        </properties>
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
