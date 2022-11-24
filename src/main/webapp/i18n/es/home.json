@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "¡Bienvenido, Java Hipster!",
+    "title": "¡Bienvenido a Panysoft",
     "subtitle": "Esta es su página de inicio",
     "logged": {
       "message": "Está conectado como \"{{username}}\"."
@@ -13,7 +13,7 @@
       "chat": "Sala de chat pública de JHipster",
       "follow": "contacto @jhipster en Twitter"
     },
-    "like": "Si te gusta JHipster, danos una estrella en",
-    "github": "GitHub"
+    "like": "Si quieres saber mas acerca de nosotros visita nuestra pagina ",
+    "github": "Panysoft"
   }
 }
