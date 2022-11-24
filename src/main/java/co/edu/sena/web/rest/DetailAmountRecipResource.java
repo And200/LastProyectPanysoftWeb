@@ -115,18 +115,9 @@ public class DetailAmountRecipResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody DetailAmountRecipDTO detailAmountRecipDTO
     ) throws URISyntaxException {
-        Optional<Product> productOptional = productRepository.findById(detailAmountRecipDTO.getProduct().getId());
-        Optional<Recip> recipOptional = recipRepository.findById(detailAmountRecipDTO.getRecip().getId());
-
         log.debug("REST request to update DetailAmountRecip : {}, {}", id, detailAmountRecipDTO);
         if (detailAmountRecipDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (recipOptional.isEmpty()) {
-            throw new BadRequestAlertException("The Recip doesn't exist", ENTITY_NAME, "recipNotExist");
-        } else if (productOptional.isEmpty()) {
-            throw new BadRequestAlertException("The Product doesn't exist", ENTITY_NAME, "productNotExist");
-        } else if (detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get()).isPresent()) {
-            throw new BadRequestAlertException("There is already a product with these characteristics", ENTITY_NAME, "detailAlreadyExists");
         }
         if (!Objects.equals(id, detailAmountRecipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
