@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DocumentType;
 import co.edu.sena.repository.DocumentTypeRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DocumentTypeService;
@@ -62,8 +63,18 @@ public class DocumentTypeResource {
     public ResponseEntity<DocumentTypeDTO> createDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO)
         throws URISyntaxException {
         log.debug("REST request to save DocumentType : {}", documentTypeDTO);
+        Optional<DocumentType> documentTypeInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
+
         if (documentTypeDTO.getId() != null) {
             throw new BadRequestAlertException("A new documentType cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (documentTypeRepository.findByInitials(documentTypeDTO.getInitials()).isPresent()) {
+            throw new BadRequestAlertException(
+                "A new documentType cannot already have an  Initials that already exists",
+                ENTITY_NAME,
+                "initialExists"
+            );
+        } else if (documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName()).isPresent()) {
+            throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
         DocumentTypeDTO result = documentTypeService.save(documentTypeDTO);
         return ResponseEntity
