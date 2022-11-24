@@ -61,6 +61,7 @@ public class RecipResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<RecipDTO> createRecip(@Valid @RequestBody RecipDTO recipDTO) throws URISyntaxException {
         log.debug("REST request to save Recip : {}", recipDTO);
+
         if (recipDTO.getId() != null) {
             throw new BadRequestAlertException("A new recip cannot already have an ID", ENTITY_NAME, "idexists");
         }

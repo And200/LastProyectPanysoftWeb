@@ -1,6 +1,11 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DocumentType;
+import co.edu.sena.domain.Product;
+import co.edu.sena.domain.Recip;
 import co.edu.sena.repository.DetailAmountRecipRepository;
+import co.edu.sena.repository.ProductRepository;
+import co.edu.sena.repository.RecipRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailAmountRecipService;
 import co.edu.sena.service.dto.DetailAmountRecipDTO;
@@ -45,12 +50,20 @@ public class DetailAmountRecipResource {
 
     private final DetailAmountRecipRepository detailAmountRecipRepository;
 
+    private final ProductRepository productRepository;
+
+    private final RecipRepository recipRepository;
+
     public DetailAmountRecipResource(
         DetailAmountRecipService detailAmountRecipService,
-        DetailAmountRecipRepository detailAmountRecipRepository
+        DetailAmountRecipRepository detailAmountRecipRepository,
+        ProductRepository productRepository,
+        RecipRepository recipRepository
     ) {
         this.detailAmountRecipService = detailAmountRecipService;
         this.detailAmountRecipRepository = detailAmountRecipRepository;
+        this.productRepository = productRepository;
+        this.recipRepository = recipRepository;
     }
 
     /**
@@ -65,9 +78,20 @@ public class DetailAmountRecipResource {
     public ResponseEntity<DetailAmountRecipDTO> createDetailAmountRecip(@Valid @RequestBody DetailAmountRecipDTO detailAmountRecipDTO)
         throws URISyntaxException {
         log.debug("REST request to save DetailAmountRecip : {}", detailAmountRecipDTO);
+        Optional<Recip> recipOptional = recipRepository.findById(detailAmountRecipDTO.getRecip().getId());
+
+        Optional<Product> productOptional = productRepository.findById(detailAmountRecipDTO.getProduct().getId());
+
         if (detailAmountRecipDTO.getId() != null) {
             throw new BadRequestAlertException("A new detailAmountRecip cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (recipOptional.isEmpty()) {
+            throw new BadRequestAlertException("The Recip doesn't exist", ENTITY_NAME, "recipNotExist");
+        } else if (productOptional.isEmpty()) {
+            throw new BadRequestAlertException("The Product doesn't exist", ENTITY_NAME, "productNotExist");
+        } else if (detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get()).isPresent()) {
+            throw new BadRequestAlertException("There is already a product with these characteristics", ENTITY_NAME, "detailAlreadyExists");
         }
+
         DetailAmountRecipDTO result = detailAmountRecipService.save(detailAmountRecipDTO);
         return ResponseEntity
             .created(new URI("/api/detail-amount-recips/" + result.getId()))
@@ -91,9 +115,18 @@ public class DetailAmountRecipResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody DetailAmountRecipDTO detailAmountRecipDTO
     ) throws URISyntaxException {
+        Optional<Product> productOptional = productRepository.findById(detailAmountRecipDTO.getProduct().getId());
+        Optional<Recip> recipOptional = recipRepository.findById(detailAmountRecipDTO.getRecip().getId());
+
         log.debug("REST request to update DetailAmountRecip : {}, {}", id, detailAmountRecipDTO);
         if (detailAmountRecipDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (recipOptional.isEmpty()) {
+            throw new BadRequestAlertException("The Recip doesn't exist", ENTITY_NAME, "recipNotExist");
+        } else if (productOptional.isEmpty()) {
+            throw new BadRequestAlertException("The Product doesn't exist", ENTITY_NAME, "productNotExist");
+        } else if (detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get()).isPresent()) {
+            throw new BadRequestAlertException("There is already a product with these characteristics", ENTITY_NAME, "detailAlreadyExists");
         }
         if (!Objects.equals(id, detailAmountRecipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");

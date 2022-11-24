@@ -1,6 +1,8 @@
 package co.edu.sena.repository;
 
 import co.edu.sena.domain.DetailAmountRecip;
+import co.edu.sena.domain.Product;
+import co.edu.sena.domain.Recip;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -41,4 +43,6 @@ public interface DetailAmountRecipRepository extends JpaRepository<DetailAmountR
         "select detailAmountRecip from DetailAmountRecip detailAmountRecip left join fetch detailAmountRecip.product left join fetch detailAmountRecip.recip where detailAmountRecip.id =:id"
     )
     Optional<DetailAmountRecip> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<DetailAmountRecip> findByProductAndRecip(Product product, Recip recip);
 }
