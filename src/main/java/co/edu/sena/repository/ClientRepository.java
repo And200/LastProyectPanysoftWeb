@@ -1,6 +1,8 @@
 package co.edu.sena.repository;
 
 import co.edu.sena.domain.Client;
+import co.edu.sena.domain.Person;
+import co.edu.sena.service.dto.PersonDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -37,4 +39,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("select client from Client client left join fetch client.person where client.id =:id")
     Optional<Client> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<Client> findByPerson(PersonDTO person);
 }

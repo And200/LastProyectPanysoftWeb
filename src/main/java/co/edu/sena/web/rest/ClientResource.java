@@ -61,9 +61,13 @@ public class ClientResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<ClientDTO> createClient(@Valid @RequestBody ClientDTO clientDTO) throws URISyntaxException {
         log.debug("REST request to save Client : {}", clientDTO);
+
         if (clientDTO.getId() != null) {
             throw new BadRequestAlertException("A new client cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (clientRepository.findByPerson(clientDTO.getPerson()).isPresent()) {
+            throw new BadRequestAlertException("Doesn't exist an Client with a existing person", ENTITY_NAME, "personExists");
         }
+
         ClientDTO result = clientService.save(clientDTO);
         return ResponseEntity
             .created(new URI("/api/clients/" + result.getId()))
