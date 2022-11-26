@@ -1,6 +1,7 @@
 package co.edu.sena.repository;
 
 import co.edu.sena.domain.Inventory;
+import co.edu.sena.domain.Product;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -37,4 +38,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
     @Query("select inventory from Inventory inventory left join fetch inventory.product where inventory.id =:id")
     Optional<Inventory> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<Inventory> findByProduct(Product product);
 }

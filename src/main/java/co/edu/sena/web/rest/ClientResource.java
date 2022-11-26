@@ -1,6 +1,8 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Person;
 import co.edu.sena.repository.ClientRepository;
+import co.edu.sena.repository.PersonRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.ClientService;
 import co.edu.sena.service.dto.ClientDTO;
@@ -10,6 +12,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -45,9 +48,12 @@ public class ClientResource {
 
     private final ClientRepository clientRepository;
 
-    public ClientResource(ClientService clientService, ClientRepository clientRepository) {
+    private final PersonRepository personRepository;
+
+    public ClientResource(PersonRepository personRepository, ClientService clientService, ClientRepository clientRepository) {
         this.clientService = clientService;
         this.clientRepository = clientRepository;
+        this.personRepository = personRepository;
     }
 
     /**
@@ -61,11 +67,11 @@ public class ClientResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<ClientDTO> createClient(@Valid @RequestBody ClientDTO clientDTO) throws URISyntaxException {
         log.debug("REST request to save Client : {}", clientDTO);
-
+        Optional<Person> personOptional = personRepository.findById(clientDTO.getPerson().getId());
         if (clientDTO.getId() != null) {
             throw new BadRequestAlertException("A new client cannot already have an ID", ENTITY_NAME, "idexists");
-        } else if (clientRepository.findByPerson(clientDTO.getPerson()).isPresent()) {
-            throw new BadRequestAlertException("Doesn't exist an Client with a existing person", ENTITY_NAME, "personExists");
+        } else if (clientRepository.findByPerson(personOptional.get()).isPresent()) {
+            throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
         }
 
         ClientDTO result = clientService.save(clientDTO);

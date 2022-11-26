@@ -63,6 +63,8 @@ public class MeasureUnitResource {
         log.debug("REST request to save MeasureUnit : {}", measureUnitDTO);
         if (measureUnitDTO.getId() != null) {
             throw new BadRequestAlertException("A new measureUnit cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (measureUnitRepository.findByNameUnit(measureUnitDTO.getNameUnit()).isPresent()) {
+            throw new BadRequestAlertException("the name unit alread exist", ENTITY_NAME, "unitExist");
         }
         MeasureUnitDTO result = measureUnitService.save(measureUnitDTO);
         return ResponseEntity

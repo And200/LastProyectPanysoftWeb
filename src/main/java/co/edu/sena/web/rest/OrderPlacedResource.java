@@ -63,6 +63,8 @@ public class OrderPlacedResource {
         log.debug("REST request to save OrderPlaced : {}", orderPlacedDTO);
         if (orderPlacedDTO.getId() != null) {
             throw new BadRequestAlertException("A new orderPlaced cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (orderPlacedRepository.findByOrderPlacedState(orderPlacedDTO.getOrderPlacedState()).isPresent()) {
+            throw new BadRequestAlertException("the order state already exist", ENTITY_NAME, "stateAlreadyExist");
         }
         OrderPlacedDTO result = orderPlacedService.save(orderPlacedDTO);
         return ResponseEntity

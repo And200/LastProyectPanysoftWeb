@@ -1,6 +1,8 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Person;
 import co.edu.sena.repository.EmployeeRepository;
+import co.edu.sena.repository.PersonRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.EmployeeService;
 import co.edu.sena.service.dto.EmployeeDTO;
@@ -45,9 +47,12 @@ public class EmployeeResource {
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeResource(EmployeeService employeeService, EmployeeRepository employeeRepository) {
+    private final PersonRepository personRepository;
+
+    public EmployeeResource(PersonRepository personRepository, EmployeeService employeeService, EmployeeRepository employeeRepository) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
+        this.personRepository = personRepository;
     }
 
     /**
@@ -61,8 +66,12 @@ public class EmployeeResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<EmployeeDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) throws URISyntaxException {
         log.debug("REST request to save Employee : {}", employeeDTO);
+
+        Optional<Person> personOptional = personRepository.findById(employeeDTO.getPerson().getId());
         if (employeeDTO.getId() != null) {
             throw new BadRequestAlertException("A new employee cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (employeeRepository.findByPerson(personOptional.get()).isPresent()) {
+            throw new BadRequestAlertException("an Employee with that person already exist", ENTITY_NAME, "employeeExist");
         }
         EmployeeDTO result = employeeService.save(employeeDTO);
         return ResponseEntity

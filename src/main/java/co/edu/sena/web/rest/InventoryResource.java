@@ -1,6 +1,8 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Product;
 import co.edu.sena.repository.InventoryRepository;
+import co.edu.sena.repository.ProductRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.InventoryService;
 import co.edu.sena.service.dto.InventoryDTO;
@@ -45,9 +47,16 @@ public class InventoryResource {
 
     private final InventoryRepository inventoryRepository;
 
-    public InventoryResource(InventoryService inventoryService, InventoryRepository inventoryRepository) {
+    private final ProductRepository productRepository;
+
+    public InventoryResource(
+        ProductRepository productRepository,
+        InventoryService inventoryService,
+        InventoryRepository inventoryRepository
+    ) {
         this.inventoryService = inventoryService;
         this.inventoryRepository = inventoryRepository;
+        this.productRepository = productRepository;
     }
 
     /**
@@ -61,8 +70,13 @@ public class InventoryResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<InventoryDTO> createInventory(@Valid @RequestBody InventoryDTO inventoryDTO) throws URISyntaxException {
         log.debug("REST request to save Inventory : {}", inventoryDTO);
+
+        Optional<Product> productOptional = productRepository.findById(inventoryDTO.getProduct().getId());
+
         if (inventoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new inventory cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (inventoryRepository.findByProduct(productOptional.get()).isPresent()) {
+            throw new BadRequestAlertException("Inventory already exist ", ENTITY_NAME, "inventoryExist");
         }
         InventoryDTO result = inventoryService.save(inventoryDTO);
         return ResponseEntity
