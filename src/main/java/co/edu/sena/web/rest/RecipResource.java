@@ -63,6 +63,8 @@ public class RecipResource {
 
         if (recipDTO.getId() != null) {
             throw new BadRequestAlertException("A new recip cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (recipRepository.findByNameRecip(recipDTO.getNameRecip()).isPresent()) {
+            throw new BadRequestAlertException("The Recip Name already exist", ENTITY_NAME, "RecipNameExist");
         }
         RecipDTO result = recipService.save(recipDTO);
         return ResponseEntity

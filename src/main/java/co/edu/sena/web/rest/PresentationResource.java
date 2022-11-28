@@ -64,6 +64,12 @@ public class PresentationResource {
         log.debug("REST request to save Presentation : {}", presentationDTO);
         if (presentationDTO.getId() != null) {
             throw new BadRequestAlertException("A new presentation cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (presentationRepository.findByPresentation(presentationDTO.getPresentation()).isPresent()) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
         }
         PresentationDTO result = presentationService.save(presentationDTO);
         return ResponseEntity

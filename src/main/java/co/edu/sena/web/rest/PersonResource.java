@@ -63,6 +63,8 @@ public class PersonResource {
         log.debug("REST request to save Person : {}", personDTO);
         if (personDTO.getId() != null) {
             throw new BadRequestAlertException("A new person cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (personRepository.findByEmail(personDTO.getEmail()).isPresent()) {
+            throw new BadRequestAlertException("The email already exist", ENTITY_NAME, "EmailExist");
         }
         PersonDTO result = personService.save(personDTO);
         return ResponseEntity

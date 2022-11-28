@@ -63,6 +63,8 @@ public class ProductResource {
         log.debug("REST request to save Product : {}", productDTO);
         if (productDTO.getId() != null) {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (productRepository.findByProductName(productDTO.getProductName()).isPresent()) {
+            throw new BadRequestAlertException("Already exist a product with These Name", ENTITY_NAME, "ProductNameExist");
         }
         ProductDTO result = productService.save(productDTO);
         return ResponseEntity

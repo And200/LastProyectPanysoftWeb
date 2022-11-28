@@ -1,5 +1,6 @@
 package co.edu.sena.repository;
 
+import co.edu.sena.domain.Person;
 import co.edu.sena.domain.Presentation;
 import java.util.List;
 import java.util.Optional;
@@ -37,4 +38,6 @@ public interface PresentationRepository extends JpaRepository<Presentation, Long
 
     @Query("select presentation from Presentation presentation left join fetch presentation.measureUnit where presentation.id =:id")
     Optional<Presentation> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<Presentation> findByPresentation(String presentation);
 }

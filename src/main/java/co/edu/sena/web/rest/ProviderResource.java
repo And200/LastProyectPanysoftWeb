@@ -63,6 +63,14 @@ public class ProviderResource {
         log.debug("REST request to save Provider : {}", providerDTO);
         if (providerDTO.getId() != null) {
             throw new BadRequestAlertException("A new provider cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (providerRepository.findByEmail(providerDTO.getEmail()).isPresent()) {
+            throw new BadRequestAlertException("The email already exist", ENTITY_NAME, "EmailExist");
+        } else if (providerRepository.findByName(providerDTO.getName()).isPresent()) {
+            throw new BadRequestAlertException("The provide Name Already Exist", ENTITY_NAME, "NameProviderExist");
+        } else if (providerRepository.findByPhone(providerDTO.getPhone()).isPresent()) {
+            throw new BadRequestAlertException("A new provider cannot already have an existing phone", ENTITY_NAME, "PhoneExist");
+        } else if (providerRepository.findByNit(providerDTO.getNit()).isPresent()) {
+            throw new BadRequestAlertException("Already exist a provider with these nit", ENTITY_NAME, "NitAlreadyExist");
         }
         ProviderDTO result = providerService.save(providerDTO);
         return ResponseEntity
