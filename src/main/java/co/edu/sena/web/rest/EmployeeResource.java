@@ -70,9 +70,12 @@ public class EmployeeResource {
         Optional<Person> personOptional = personRepository.findById(employeeDTO.getPerson().getId());
         if (employeeDTO.getId() != null) {
             throw new BadRequestAlertException("A new employee cannot already have an ID", ENTITY_NAME, "idexists");
-        } else if (employeeRepository.findByPerson(personOptional.get()).isPresent()) {
-            throw new BadRequestAlertException("an Employee with that person already exist", ENTITY_NAME, "employeeExist");
+        } else if (personOptional.isPresent()) {
+            if (employeeRepository.findByPerson(personOptional.get()).isPresent()) {
+                throw new BadRequestAlertException("an Employee with that person already exist", ENTITY_NAME, "employeeExist");
+            }
         }
+
         EmployeeDTO result = employeeService.save(employeeDTO);
         return ResponseEntity
             .created(new URI("/api/employees/" + result.getId()))

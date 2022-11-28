@@ -68,8 +68,10 @@ public class ClientResource {
         Optional<Person> personOptional = personRepository.findById(clientDTO.getPerson().getId());
         if (clientDTO.getId() != null) {
             throw new BadRequestAlertException("A new client cannot already have an ID", ENTITY_NAME, "idexists");
-        } else if (clientRepository.findByPerson(personOptional.get()).isPresent()) {
-            throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
+        } else if (personOptional.isPresent()) {
+            if (clientRepository.findByPerson(personOptional.get()).isPresent()) {
+                throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
+            }
         }
 
         ClientDTO result = clientService.save(clientDTO);
