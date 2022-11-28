@@ -60,18 +60,10 @@ public class CategoryResource {
     @PostMapping("/categories")
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
-        log.debug("REST request to save Category : {}", categoryDTO);
         if (categoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new category cannot already have an ID", ENTITY_NAME, "idexists");
-        } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
-            throw new BadRequestAlertException(
-                "A new category cannot have an already existing name Category",
-                ENTITY_NAME,
-                "categoryNameExists"
-            );
-        } else if (categoryRepository.findById(categoryDTO.getId()).isPresent()) {
-            throw new BadRequestAlertException("A new category cannot have an already existing Id", ENTITY_NAME, "idexists");
         }
+
         CategoryDTO result = categoryService.save(categoryDTO);
         return ResponseEntity
             .created(new URI("/api/categories/" + result.getId()))
