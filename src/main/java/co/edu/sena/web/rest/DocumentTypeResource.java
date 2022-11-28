@@ -63,7 +63,6 @@ public class DocumentTypeResource {
     public ResponseEntity<DocumentTypeDTO> createDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO)
         throws URISyntaxException {
         log.debug("REST request to save DocumentType : {}", documentTypeDTO);
-        Optional<DocumentType> documentTypeInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
 
         if (documentTypeDTO.getId() != null) {
             throw new BadRequestAlertException("A new documentType cannot already have an ID", ENTITY_NAME, "idexists");

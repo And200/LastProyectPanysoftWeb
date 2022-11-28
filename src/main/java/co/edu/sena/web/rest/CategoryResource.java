@@ -62,6 +62,12 @@ public class CategoryResource {
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
         if (categoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new category cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
         }
 
         CategoryDTO result = categoryService.save(categoryDTO);
