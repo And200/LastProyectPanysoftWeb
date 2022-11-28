@@ -1,6 +1,5 @@
 package co.edu.sena.web.rest;
 
-import co.edu.sena.domain.DocumentType;
 import co.edu.sena.repository.DocumentTypeRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DocumentTypeService;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
