@@ -44,12 +44,12 @@ public class CategoryDTO implements Serializable {
         if (this.id == null) {
             return false;
         }
-        return Objects.equals(this.id, categoryDTO.id);
+        return Objects.equals(this.id, categoryDTO.id) && Objects.equals(this.nameCategory, categoryDTO.nameCategory);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(id, nameCategory);
     }
 
     // prettier-ignore
