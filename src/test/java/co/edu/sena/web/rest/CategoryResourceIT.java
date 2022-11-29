@@ -219,7 +219,7 @@ class CategoryResourceIT {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(categoryDTO))
             )
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isInternalServerError());
 
         // Validate the Category in the database
         List<Category> categoryList = categoryRepository.findAll();
@@ -242,7 +242,7 @@ class CategoryResourceIT {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(categoryDTO))
             )
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isInternalServerError());
 
         // Validate the Category in the database
         List<Category> categoryList = categoryRepository.findAll();

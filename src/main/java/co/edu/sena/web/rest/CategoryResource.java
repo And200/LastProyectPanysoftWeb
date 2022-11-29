@@ -1,9 +1,11 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Category;
 import co.edu.sena.repository.CategoryRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.CategoryService;
 import co.edu.sena.service.dto.CategoryDTO;
+import co.edu.sena.service.mapper.CategoryMapper;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +46,12 @@ public class CategoryResource {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryResource(CategoryService categoryService, CategoryRepository categoryRepository) {
+    private final CategoryMapper categoryMapper;
+
+    public CategoryResource(CategoryMapper categoryMapper, CategoryService categoryService, CategoryRepository categoryRepository) {
         this.categoryService = categoryService;
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
 
     /**
@@ -94,9 +98,22 @@ public class CategoryResource {
         @Valid @RequestBody CategoryDTO categoryDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Category : {}, {}", id, categoryDTO);
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryDTO.getId());
+
+        CategoryDTO categoryCompare = categoryMapper.toDto(categoryOptional.get());
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (categoryDTO.equals(categoryCompare)) {
+            log.debug("product not had changes , updated Successfully");
+        } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
+        }
+
         if (!Objects.equals(id, categoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
