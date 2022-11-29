@@ -24,10 +24,9 @@
 
     <properties>
 
-
-            <sonar.organization>panysoft-latest</sonar.organization>
-            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
+        <!-- Organization -->
+        <sonar.organization>and200-panysoft</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <!-- Build properties -->
         <maven.version>3.8.5</maven.version>
         <java.version>11</java.version>
