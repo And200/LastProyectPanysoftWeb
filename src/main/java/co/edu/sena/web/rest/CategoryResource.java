@@ -100,9 +100,11 @@ public class CategoryResource {
         log.debug("REST request to update Category : {}, {}", id, categoryDTO);
         Optional<Category> categoryOptional = categoryRepository.findById(categoryDTO.getId());
         CategoryDTO categoryCompare = categoryMapper.toDto(categoryOptional.get());
+
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (categoryOptional.isPresent()) {
+        }
+        if (categoryOptional.isPresent()) {
             if (categoryDTO.equals(categoryCompare)) {
                 log.debug("product not had changes , updated Successfully");
             } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
