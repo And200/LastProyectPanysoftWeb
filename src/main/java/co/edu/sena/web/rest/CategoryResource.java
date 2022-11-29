@@ -99,19 +99,19 @@ public class CategoryResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Category : {}, {}", id, categoryDTO);
         Optional<Category> categoryOptional = categoryRepository.findById(categoryDTO.getId());
-
         CategoryDTO categoryCompare = categoryMapper.toDto(categoryOptional.get());
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (categoryDTO.equals(categoryCompare)) {
-            log.debug("product not had changes , updated Successfully");
-        } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
-            throw new BadRequestAlertException(
-                "A new category cannot have an already existing name Category",
-                ENTITY_NAME,
-                "categoryNameExists"
-            );
+        } else if (categoryOptional.isPresent()) {
+            if (categoryDTO.equals(categoryCompare)) {
+                log.debug("product not had changes , updated Successfully");
+            } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
+                throw new BadRequestAlertException(
+                    "A new category cannot have an already existing name Category",
+                    ENTITY_NAME,
+                    "categoryNameExists"
+                );
+            }
         }
 
         if (!Objects.equals(id, categoryDTO.getId())) {
