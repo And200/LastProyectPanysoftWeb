@@ -99,7 +99,10 @@ public class CategoryResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Category : {}, {}", id, categoryDTO);
         Optional<Category> categoryOptional = categoryRepository.findById(categoryDTO.getId());
-        CategoryDTO categoryCompare = categoryMapper.toDto(categoryOptional.get());
+        CategoryDTO categoryCompare = null;
+        if (categoryOptional.isPresent()) {
+            categoryCompare = categoryMapper.toDto(categoryOptional.get());
+        }
 
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
