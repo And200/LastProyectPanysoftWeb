@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.DocumentTypeRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DocumentTypeService;
 import co.edu.sena.service.dto.DocumentTypeDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -17,8 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,11 +57,21 @@ public class DocumentTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/document-types")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DocumentTypeDTO> createDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO)
         throws URISyntaxException {
         log.debug("REST request to save DocumentType : {}", documentTypeDTO);
+
         if (documentTypeDTO.getId() != null) {
             throw new BadRequestAlertException("A new documentType cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (documentTypeRepository.findByInitials(documentTypeDTO.getInitials()).isPresent()) {
+            throw new BadRequestAlertException(
+                "A new documentType cannot already have an  Initials that already exists",
+                ENTITY_NAME,
+                "initialExists"
+            );
+        } else if (documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName()).isPresent()) {
+            throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
         DocumentTypeDTO result = documentTypeService.save(documentTypeDTO);
         return ResponseEntity
@@ -80,6 +91,7 @@ public class DocumentTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/document-types/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DocumentTypeDTO> updateDocumentType(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody DocumentTypeDTO documentTypeDTO
@@ -115,6 +127,7 @@ public class DocumentTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/document-types/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DocumentTypeDTO> partialUpdateDocumentType(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody DocumentTypeDTO documentTypeDTO
@@ -146,6 +159,7 @@ public class DocumentTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of documentTypes in body.
      */
     @GetMapping("/document-types")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<DocumentTypeDTO>> getAllDocumentTypes(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of DocumentTypes");
         Page<DocumentTypeDTO> page = documentTypeService.findAll(pageable);
@@ -160,6 +174,7 @@ public class DocumentTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the documentTypeDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/document-types/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DocumentTypeDTO> getDocumentType(@PathVariable Long id) {
         log.debug("REST request to get DocumentType : {}", id);
         Optional<DocumentTypeDTO> documentTypeDTO = documentTypeService.findOne(id);
@@ -173,6 +188,7 @@ public class DocumentTypeResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/document-types/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDocumentType(@PathVariable Long id) {
         log.debug("REST request to delete DocumentType : {}", id);
         documentTypeService.delete(id);

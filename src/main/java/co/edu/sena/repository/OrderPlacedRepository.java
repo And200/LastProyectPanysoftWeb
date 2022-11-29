@@ -1,6 +1,8 @@
 package co.edu.sena.repository;
 
 import co.edu.sena.domain.OrderPlaced;
+import co.edu.sena.domain.enumeration.StateOrder;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface OrderPlacedRepository extends JpaRepository<OrderPlaced, Long> {}
+public interface OrderPlacedRepository extends JpaRepository<OrderPlaced, Long> {
+    Optional<OrderPlaced> findByOrderPlacedState(StateOrder state);
+}

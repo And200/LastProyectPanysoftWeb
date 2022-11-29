@@ -10,6 +10,7 @@ import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.MeasureUnit;
 import co.edu.sena.domain.Presentation;
 import co.edu.sena.repository.PresentationRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PresentationService;
 import co.edu.sena.service.dto.PresentationDTO;
 import co.edu.sena.service.mapper.PresentationMapper;
@@ -38,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class PresentationResourceIT {
 
     private static final String DEFAULT_PRESENTATION = "AAAAAAAAAA";

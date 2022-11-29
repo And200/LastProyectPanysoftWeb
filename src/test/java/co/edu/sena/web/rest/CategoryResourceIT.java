@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.Category;
 import co.edu.sena.repository.CategoryRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.dto.CategoryDTO;
 import co.edu.sena.service.mapper.CategoryMapper;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class CategoryResourceIT {
 
     private static final String DEFAULT_NAME_CATEGORY = "AAAAAAAAAA";

@@ -11,6 +11,7 @@ import co.edu.sena.domain.DetailSale;
 import co.edu.sena.domain.Presentation;
 import co.edu.sena.domain.Product;
 import co.edu.sena.repository.DetailSaleRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailSaleService;
 import co.edu.sena.service.dto.DetailSaleDTO;
 import co.edu.sena.service.mapper.DetailSaleMapper;
@@ -39,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN, AuthoritiesConstants.CASHIER })
 class DetailSaleResourceIT {
 
     private static final Integer DEFAULT_PRODUCT_AMOUNT = 1;

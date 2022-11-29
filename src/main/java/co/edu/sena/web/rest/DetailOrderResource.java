@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.DetailOrderRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailOrderService;
 import co.edu.sena.service.dto.DetailOrderDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -17,8 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,10 +57,13 @@ public class DetailOrderResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/detail-orders")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailOrderDTO> createDetailOrder(@Valid @RequestBody DetailOrderDTO detailOrderDTO) throws URISyntaxException {
         log.debug("REST request to save DetailOrder : {}", detailOrderDTO);
         if (detailOrderDTO.getId() != null) {
             throw new BadRequestAlertException("A new detailOrder cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber()).isPresent()) {
+            throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "InvoiceNumberExist");
         }
         DetailOrderDTO result = detailOrderService.save(detailOrderDTO);
         return ResponseEntity
@@ -79,6 +83,7 @@ public class DetailOrderResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/detail-orders/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailOrderDTO> updateDetailOrder(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody DetailOrderDTO detailOrderDTO
@@ -114,6 +119,7 @@ public class DetailOrderResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/detail-orders/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailOrderDTO> partialUpdateDetailOrder(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody DetailOrderDTO detailOrderDTO
@@ -146,6 +152,7 @@ public class DetailOrderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of detailOrders in body.
      */
     @GetMapping("/detail-orders")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<DetailOrderDTO>> getAllDetailOrders(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -168,6 +175,7 @@ public class DetailOrderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the detailOrderDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/detail-orders/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<DetailOrderDTO> getDetailOrder(@PathVariable Long id) {
         log.debug("REST request to get DetailOrder : {}", id);
         Optional<DetailOrderDTO> detailOrderDTO = detailOrderService.findOne(id);
@@ -181,6 +189,7 @@ public class DetailOrderResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/detail-orders/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDetailOrder(@PathVariable Long id) {
         log.debug("REST request to delete DetailOrder : {}", id);
         detailOrderService.delete(id);

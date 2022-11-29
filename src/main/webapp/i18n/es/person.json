@@ -4,26 +4,26 @@
       "home": {
         "title": "People",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Person",
-        "createOrEditLabel": "Crear o editar Person",
-        "notFound": "Ningún People encontrado"
+        "createLabel": "Crear nueva Persona",
+        "createOrEditLabel": "Crear o editar Persona",
+        "notFound": "Ninguna Persona encontrada"
       },
-      "created": "Un nuevo Person ha sido creado con el identificador {{ param }}",
-      "updated": "Un Person ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Person ha sido eliminado con el identificador {{ param }}",
+      "created": "Una nueva Persona ha sido creado con el identificador {{ param }}",
+      "updated": "Una Persona ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Una Persona ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Person {{ id }}?"
+        "question": "¿Seguro que quiere eliminar La Persona {{ id }}?"
       },
       "detail": {
-        "title": "Person"
+        "title": "Persona"
       },
       "id": "ID",
-      "name": "Name",
+      "name": "Nombre",
       "email": "Email",
-      "adress": "Adress",
-      "employee": "Employee",
-      "client": "Client",
-      "documentType": "Document Type"
+      "adress": "Dirección",
+      "employee": "Empleado",
+      "client": "Cliente",
+      "documentType": "Tipo De Documento"
     }
   }
 }

@@ -4,22 +4,22 @@
       "home": {
         "title": "Categories",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Category",
-        "createOrEditLabel": "Crear o editar Category",
+        "createLabel": "Crear nueva Categoria",
+        "createOrEditLabel": "Crear o editar Categoria",
         "notFound": "Ningún Categories encontrado"
       },
-      "created": "Un nuevo Category ha sido creado con el identificador {{ param }}",
-      "updated": "Un Category ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Category ha sido eliminado con el identificador {{ param }}",
+      "created": "Una nueva Categoria  ha sido creado con el identificador {{ param }}",
+      "updated": "Una nueva Categoria  ha sido actualizada con el identificador{{ param }}",
+      "deleted": "Una nueva Categoria  ha sido eliminada con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Category {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la categoria {{ id }}?"
       },
       "detail": {
-        "title": "Category"
+        "title": "Categoria"
       },
       "id": "ID",
-      "nameCategory": "Name Category",
-      "product": "Product"
+      "nameCategory": "Nombre Categoria",
+      "product": "Producto"
     }
   }
 }

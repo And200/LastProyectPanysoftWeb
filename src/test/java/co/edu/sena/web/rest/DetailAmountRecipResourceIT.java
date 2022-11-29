@@ -11,6 +11,7 @@ import co.edu.sena.domain.DetailAmountRecip;
 import co.edu.sena.domain.Product;
 import co.edu.sena.domain.Recip;
 import co.edu.sena.repository.DetailAmountRecipRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailAmountRecipService;
 import co.edu.sena.service.dto.DetailAmountRecipDTO;
 import co.edu.sena.service.mapper.DetailAmountRecipMapper;
@@ -39,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class DetailAmountRecipResourceIT {
 
     private static final Double DEFAULT_AMOUNT_PRODUCT = 1D;

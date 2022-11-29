@@ -2,24 +2,24 @@
   "panysoftApp": {
     "measureUnit": {
       "home": {
-        "title": "Measure Units",
+        "title": "Unidad De Medida",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Measure Unit",
-        "createOrEditLabel": "Crear o editar Measure Unit",
-        "notFound": "Ningún Measure Units encontrado"
+        "createLabel": "Crear nuevo Unidad De Medida",
+        "createOrEditLabel": "Crear o editar Unidad De Medida",
+        "notFound": "Ningúna Unidad De Medida encontrada"
       },
-      "created": "Un nuevo Measure Unit ha sido creado con el identificador {{ param }}",
-      "updated": "Un Measure Unit ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Measure Unit ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nueva Unidad De Medida ha sido creado con el identificador {{ param }}",
+      "updated": "Una Unidad De Medida ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Una Unidad De Medida ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Measure Unit {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la  Unidad De Medida {{ id }}?"
       },
       "detail": {
-        "title": "Measure Unit"
+        "title": "Unidad De Medida"
       },
       "id": "ID",
-      "nameUnit": "Name Unit",
-      "presentation": "Presentation"
+      "nameUnit": "Nombre Unidad",
+      "presentation": "Presentacion"
     }
   }
 }

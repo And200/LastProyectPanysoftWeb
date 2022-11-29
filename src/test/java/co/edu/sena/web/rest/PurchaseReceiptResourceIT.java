@@ -13,6 +13,7 @@ import co.edu.sena.domain.DetailSale;
 import co.edu.sena.domain.Employee;
 import co.edu.sena.domain.PurchaseReceipt;
 import co.edu.sena.repository.PurchaseReceiptRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PurchaseReceiptService;
 import co.edu.sena.service.dto.PurchaseReceiptDTO;
 import co.edu.sena.service.mapper.PurchaseReceiptMapper;
@@ -45,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN, AuthoritiesConstants.CASHIER })
 class PurchaseReceiptResourceIT {
 
     private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);

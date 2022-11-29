@@ -41,4 +41,6 @@ public interface DetailOrderRepository extends JpaRepository<DetailOrder, Long> 
         "select detailOrder from DetailOrder detailOrder left join fetch detailOrder.provider left join fetch detailOrder.orderPlaced left join fetch detailOrder.product where detailOrder.id =:id"
     )
     Optional<DetailOrder> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<DetailOrder> findByInvoiceNumber(String invoiceNumber);
 }

@@ -1,8 +1,10 @@
 package co.edu.sena.repository;
 
 import co.edu.sena.domain.Employee;
+import co.edu.sena.domain.Person;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -37,4 +39,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("select employee from Employee employee left join fetch employee.user left join fetch employee.person where employee.id =:id")
     Optional<Employee> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<Employee> findByPerson(Person person);
 }

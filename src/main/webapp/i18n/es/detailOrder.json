@@ -2,29 +2,29 @@
   "panysoftApp": {
     "detailOrder": {
       "home": {
-        "title": "Detail Orders",
+        "title": "Detalle De Orden",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Detail Order",
-        "createOrEditLabel": "Crear o editar Detail Order",
-        "notFound": "Ningún Detail Orders encontrado"
+        "createLabel": "Crear nuevo Detalle De Orden",
+        "createOrEditLabel": "Crear o editar Detalle De Orden",
+        "notFound": "Ningún Detalle De Orden encontrado"
       },
-      "created": "Un nuevo Detail Order ha sido creado con el identificador {{ param }}",
-      "updated": "Un Detail Order ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Detail Order ha sido eliminado con el identificador {{ param }}",
+      "created": "Un Detalle De Orden Order ha sido creado con el identificador {{ param }}",
+      "updated": "Un Detalle De Orden ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Detalle De Orden ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Detail Order {{ id }}?"
+        "question": "¿Seguro que quiere eliminar el Detalle De Orden {{ id }}?"
       },
       "detail": {
-        "title": "Detail Order"
+        "title": "Detalle De Orden"
       },
       "id": "ID",
-      "quantityOrdered": "Quantity Ordered",
-      "date": "Date",
-      "invoiceNumber": "Invoice Number",
-      "pricePayment": "Price Payment",
-      "provider": "Provider",
-      "orderPlaced": "Order Placed",
-      "product": "Product"
+      "quantityOrdered": "Cantidad Ordenada",
+      "date": "Fecha",
+      "invoiceNumber": "Numero de Factura",
+      "pricePayment": "Precio de Pago",
+      "provider": "Proveedor",
+      "orderPlaced": "Estado pedido realizado",
+      "product": "Producto"
     }
   }
 }

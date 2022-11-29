@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.DetailSaleRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailSaleService;
 import co.edu.sena.service.dto.DetailSaleDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -17,8 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +57,7 @@ public class DetailSaleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/detail-sales")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<DetailSaleDTO> createDetailSale(@Valid @RequestBody DetailSaleDTO detailSaleDTO) throws URISyntaxException {
         log.debug("REST request to save DetailSale : {}", detailSaleDTO);
         if (detailSaleDTO.getId() != null) {
@@ -79,6 +81,7 @@ public class DetailSaleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/detail-sales/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<DetailSaleDTO> updateDetailSale(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody DetailSaleDTO detailSaleDTO
@@ -114,6 +117,7 @@ public class DetailSaleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/detail-sales/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<DetailSaleDTO> partialUpdateDetailSale(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody DetailSaleDTO detailSaleDTO
@@ -146,6 +150,7 @@ public class DetailSaleResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of detailSales in body.
      */
     @GetMapping("/detail-sales")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<List<DetailSaleDTO>> getAllDetailSales(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -168,6 +173,7 @@ public class DetailSaleResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the detailSaleDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/detail-sales/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<DetailSaleDTO> getDetailSale(@PathVariable Long id) {
         log.debug("REST request to get DetailSale : {}", id);
         Optional<DetailSaleDTO> detailSaleDTO = detailSaleService.findOne(id);
@@ -181,6 +187,7 @@ public class DetailSaleResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/detail-sales/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<Void> deleteDetailSale(@PathVariable Long id) {
         log.debug("REST request to delete DetailSale : {}", id);
         detailSaleService.delete(id);

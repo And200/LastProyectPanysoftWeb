@@ -1,6 +1,7 @@
 package co.edu.sena.web.rest;
 
 import co.edu.sena.repository.PersonRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PersonService;
 import co.edu.sena.service.dto.PersonDTO;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,10 +58,13 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/people")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PersonDTO> createPerson(@Valid @RequestBody PersonDTO personDTO) throws URISyntaxException {
         log.debug("REST request to save Person : {}", personDTO);
         if (personDTO.getId() != null) {
             throw new BadRequestAlertException("A new person cannot already have an ID", ENTITY_NAME, "idexists");
+        } else if (personRepository.findByEmail(personDTO.getEmail()).isPresent()) {
+            throw new BadRequestAlertException("The email already exist", ENTITY_NAME, "EmailExist");
         }
         PersonDTO result = personService.save(personDTO);
         return ResponseEntity
@@ -79,6 +84,7 @@ public class PersonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/people/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PersonDTO> updatePerson(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PersonDTO personDTO
@@ -113,7 +119,9 @@ public class PersonResource {
      * or with status {@code 500 (Internal Server Error)} if the personDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+
     @PatchMapping(value = "/people/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PersonDTO> partialUpdatePerson(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PersonDTO personDTO
@@ -146,6 +154,7 @@ public class PersonResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of people in body.
      */
     @GetMapping("/people")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<List<PersonDTO>> getAllPeople(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -168,6 +177,7 @@ public class PersonResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the personDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/people/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PersonDTO> getPerson(@PathVariable Long id) {
         log.debug("REST request to get Person : {}", id);
         Optional<PersonDTO> personDTO = personService.findOne(id);
@@ -181,6 +191,7 @@ public class PersonResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/people/{id}")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         log.debug("REST request to delete Person : {}", id);
         personService.delete(id);

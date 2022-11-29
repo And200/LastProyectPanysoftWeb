@@ -10,6 +10,7 @@ import co.edu.sena.IntegrationTest;
 import co.edu.sena.domain.Inventory;
 import co.edu.sena.domain.Product;
 import co.edu.sena.repository.InventoryRepository;
+import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.InventoryService;
 import co.edu.sena.service.dto.InventoryDTO;
 import co.edu.sena.service.mapper.InventoryMapper;
@@ -38,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = { AuthoritiesConstants.ADMIN })
 class InventoryResourceIT {
 
     private static final Integer DEFAULT_STOCKS = 1;

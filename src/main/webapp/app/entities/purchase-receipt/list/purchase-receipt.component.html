@@ -65,7 +65,7 @@
           </td>
           <td>
             <div *ngIf="purchaseReceipt.detailSale">
-              <a [routerLink]="['/detail-sale', purchaseReceipt.detailSale?.id, 'view']">{{ purchaseReceipt.detailSale?.productAmount }}</a>
+              <a [routerLink]="['/detail-sale', purchaseReceipt.detailSale?.id, 'view']">{{ purchaseReceipt.detailSale?.id }}</a>
             </div>
           </td>
           <td>
