@@ -63,7 +63,7 @@ public class DetailOrderResource {
         if (detailOrderDTO.getId() != null) {
             throw new BadRequestAlertException("A new detailOrder cannot already have an ID", ENTITY_NAME, "idexists");
         } else if (detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber()).isPresent()) {
-            throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "InvoiceNumberExist");
+            throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "invoiceNumberExist");
         }
         DetailOrderDTO result = detailOrderService.save(detailOrderDTO);
         return ResponseEntity

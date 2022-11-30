@@ -9,6 +9,25 @@
       "500": "Error interno del servidor."
     },
     "concurrencyFailure": "Otro usuario ha modificado estos datos al mismo tiempo que tú. Tus cambios fueron rechazados.",
-    "validation": "Error de validación en el servidor."
+    "validation": "Error de validación en el servidor.",
+    "categoryNameExists": "Ya existe Una Categoría con Ese Nombre",
+    "clientExist": "Ya existe un cliente con esa Persona ",
+    "recipNotExist": " La receta no existe",
+    "productNotExist": "El producto no existe",
+    "detailAlreadyExists": "Ya existe un detalle con ese mismo Producto y Receta ",
+    "invoiceNumberExist": "Ya existe un detalle de Venta con ese mismo número de Factura",
+    "nameExists": "Ya existe un Tipo de documento con ese nombre de documento ",
+    "employeeExist": "Ya existe un empleado con esa persona ",
+    "inventoryExist": "Ya existe un inventario con ese producto",
+    "unitExist": "La unidad De medida Ya existe ",
+    "stateAlreadyExist": "Ya existe ese estado",
+    "EmailExist": "Ya existe una persona con ese email",
+    "categoryNameExists": "Ya existe una categoría con ese nombre ",
+    "ProductNameExist": "Ya existe un producto Con ese nombre ",
+    "NameProviderExist": "Ya existe un proveedor con ese nombre ",
+    "PhoneExist": "Ya existe un proveedor con ese número de teléfono ",
+    "NitAlreadyExist": "Ya existe un proveedor con ese Numero De Identificación Tributaria",
+    "RecipNameExist": "El nombre de la receta ya existe",
+    "initialExists": "Ya existe un documento con esas mismas iniciales"
   }
 }

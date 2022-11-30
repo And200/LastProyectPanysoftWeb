@@ -9,6 +9,25 @@
       "500": "Internal server error."
     },
     "concurrencyFailure": "Another user modified this data at the same time as you. Your changes were rejected.",
-    "validation": "Validation error on the server."
+    "validation": "Validation error on the server.",
+    "categoryNameExists": "Already Exist a Category with These Name",
+    "clientExist": "The client with that person already exist",
+    "recipNotExist": " The recip not Exist",
+    "productNotExist": "The product not Exist",
+    "detailAlreadyExists": "There is already a product with these characteristics",
+    "invoiceNumberExist": "Already exist and Detail Order with that Invoice Number",
+    "nameExists": "Already Exist and Document Type with that document Name",
+    "employeeExist": "an Employee with that person already exist",
+    "inventoryExist": "Already exist an Inventary with these Product",
+    "unitExist": "The Measure Unit already exist",
+    "stateAlreadyExist": "Already exist that State",
+    "EmailExist": "The email Already exist",
+    "categoryNameExists": "Already exist and Category with that name",
+    "ProductNameExist": "Already exist an Product with these name",
+    "NameProviderExist": "Already exist an provide with these name",
+    "PhoneExist": "Already exist an Provider with these Phone Number",
+    "NitAlreadyExist": "Already exist an Provider with that Name",
+    "RecipNameExist": "Already exist an Recip with that Name",
+    "initialExists": "Already exist an Document with these initials"
   }
 }

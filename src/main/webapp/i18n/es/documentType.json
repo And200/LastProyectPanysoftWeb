@@ -2,7 +2,7 @@
   "panysoftApp": {
     "documentType": {
       "home": {
-        "title": "Document Types",
+        "title": "Tipos De Documento",
         "refreshListLabel": "Refrescar lista",
         "createLabel": "Crear nuevo Tipo De Documento",
         "createOrEditLabel": "Crear o editar Tipo De Documento",

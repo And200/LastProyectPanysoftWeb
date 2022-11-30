@@ -77,7 +77,7 @@ public class InventoryResource {
             throw new BadRequestAlertException("A new inventory cannot already have an ID", ENTITY_NAME, "idexists");
         } else if (productOptional.isPresent()) {
             if (inventoryRepository.findByProduct(productOptional.get()).isPresent()) {
-                throw new BadRequestAlertException("The Inventory Exist", ENTITY_NAME, "Inventory Exist");
+                throw new BadRequestAlertException("The Inventory Exist", ENTITY_NAME, "inventoryExist");
             }
         }
         InventoryDTO result = inventoryService.save(inventoryDTO);
