@@ -4,3 +4,4 @@ id;login;password_hash;email;image_url;activated;lang_key;created_by;last_modifi
 3;mesero;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;mesero@localhost;;true;es;system;system
 4;cajero;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;cajero@localhost;;true;es;system;system
 5;panadero;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;panadero@localhost;;true;es;system;system
+6;cliente;$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K;cliente@localhost;;true;es;system;system

@@ -162,7 +162,9 @@ public class ProductResource {
         AuthoritiesConstants.WAITER +
         "')or hasAuthority('" +
         AuthoritiesConstants.CASHIER +
-        "')"
+        "')or hasAuthority('" +
+        AuthoritiesConstants.CLIENT +
+        "') "
     )
     public ResponseEntity<List<ProductDTO>> getAllProducts(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,

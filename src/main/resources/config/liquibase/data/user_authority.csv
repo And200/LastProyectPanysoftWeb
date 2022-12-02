@@ -5,3 +5,4 @@ user_id;authority_name
 3;ROLE_MESERO
 4;ROLE_CAJERO
 5;ROLE_PANADERO
+6;ROLE_CLIENTE
