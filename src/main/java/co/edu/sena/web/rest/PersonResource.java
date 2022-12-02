@@ -1,9 +1,11 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Person;
 import co.edu.sena.repository.PersonRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PersonService;
 import co.edu.sena.service.dto.PersonDTO;
+import co.edu.sena.service.mapper.PersonMapper;
 import co.edu.sena.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -90,9 +92,11 @@ public class PersonResource {
         @Valid @RequestBody PersonDTO personDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Person : {}, {}", id, personDTO);
+
         if (personDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+
         if (!Objects.equals(id, personDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }

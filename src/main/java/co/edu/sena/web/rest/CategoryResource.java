@@ -107,17 +107,6 @@ public class CategoryResource {
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (categoryOptional.isPresent()) {
-            if (categoryDTO.equals(categoryCompare)) {
-                log.debug("product not had changes , updated Successfully");
-            } else if (categoryRepository.findByNameCategory(categoryDTO.getNameCategory()).isPresent()) {
-                throw new BadRequestAlertException(
-                    "A new category cannot have an already existing name Category",
-                    ENTITY_NAME,
-                    "categoryNameExists"
-                );
-            }
-        }
 
         if (!Objects.equals(id, categoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");

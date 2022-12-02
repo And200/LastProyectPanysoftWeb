@@ -78,7 +78,13 @@ public class PersonDTO implements Serializable {
         if (this.id == null) {
             return false;
         }
-        return Objects.equals(this.id, personDTO.id);
+        return (
+            Objects.equals(this.id, personDTO.id) &&
+            Objects.equals(this.adress, personDTO.adress) &&
+            Objects.equals(this.name, personDTO.name) &&
+            Objects.equals(this.email, personDTO.email) &&
+            Objects.equals(this.documentType, personDTO.documentType)
+        );
     }
 
     @Override
