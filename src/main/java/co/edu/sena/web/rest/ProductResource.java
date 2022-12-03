@@ -188,7 +188,19 @@ public class ProductResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the productDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/products/{id}")
-    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "') ")
+    @PreAuthorize(
+        "hasAuthority('" +
+        AuthoritiesConstants.ADMIN +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.BAKER +
+        "') or hasAuthority('" +
+        AuthoritiesConstants.WAITER +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.CASHIER +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.CLIENT +
+        "') "
+    )
     public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         log.debug("REST request to get Product : {}", id);
         Optional<ProductDTO> productDTO = productService.findOne(id);

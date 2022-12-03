@@ -6,6 +6,7 @@ import { EmployeeComponent } from '../list/employee.component';
 import { EmployeeDetailComponent } from '../detail/employee-detail.component';
 import { EmployeeUpdateComponent } from '../update/employee-update.component';
 import { EmployeeRoutingResolveService } from './employee-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const employeeRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const employeeRoute: Routes = [
     component: EmployeeComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const employeeRoute: Routes = [
     resolve: {
       employee: EmployeeRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const employeeRoute: Routes = [
     resolve: {
       employee: EmployeeRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const employeeRoute: Routes = [
     component: EmployeeUpdateComponent,
     resolve: {
       employee: EmployeeRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

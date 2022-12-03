@@ -6,6 +6,7 @@ import { ClientComponent } from '../list/client.component';
 import { ClientDetailComponent } from '../detail/client-detail.component';
 import { ClientUpdateComponent } from '../update/client-update.component';
 import { ClientRoutingResolveService } from './client-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const clientRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const clientRoute: Routes = [
     component: ClientComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const clientRoute: Routes = [
     resolve: {
       client: ClientRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const clientRoute: Routes = [
     resolve: {
       client: ClientRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const clientRoute: Routes = [
     component: ClientUpdateComponent,
     resolve: {
       client: ClientRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

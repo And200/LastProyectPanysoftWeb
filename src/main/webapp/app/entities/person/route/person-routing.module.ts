@@ -6,6 +6,7 @@ import { PersonComponent } from '../list/person.component';
 import { PersonDetailComponent } from '../detail/person-detail.component';
 import { PersonUpdateComponent } from '../update/person-update.component';
 import { PersonRoutingResolveService } from './person-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const personRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const personRoute: Routes = [
     component: PersonComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const personRoute: Routes = [
     resolve: {
       person: PersonRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const personRoute: Routes = [
     resolve: {
       person: PersonRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const personRoute: Routes = [
     component: PersonUpdateComponent,
     resolve: {
       person: PersonRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

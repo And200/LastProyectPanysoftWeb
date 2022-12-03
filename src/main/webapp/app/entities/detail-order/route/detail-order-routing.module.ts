@@ -6,6 +6,7 @@ import { DetailOrderComponent } from '../list/detail-order.component';
 import { DetailOrderDetailComponent } from '../detail/detail-order-detail.component';
 import { DetailOrderUpdateComponent } from '../update/detail-order-update.component';
 import { DetailOrderRoutingResolveService } from './detail-order-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const detailOrderRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const detailOrderRoute: Routes = [
     component: DetailOrderComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const detailOrderRoute: Routes = [
     resolve: {
       detailOrder: DetailOrderRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const detailOrderRoute: Routes = [
     resolve: {
       detailOrder: DetailOrderRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const detailOrderRoute: Routes = [
     component: DetailOrderUpdateComponent,
     resolve: {
       detailOrder: DetailOrderRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

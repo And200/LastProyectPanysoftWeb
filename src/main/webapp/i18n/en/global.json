@@ -11,6 +11,15 @@
         "product": "Product",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "baker": {
+        "main": "Baker",
+        "category": "Category",
+        "recip": "Recip",
+        "product": "Product",
+        "presentation": "Presentation",
+        "provider": "Provider",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
       "entities": {
         "main": "Entities",
         "documentType": "Document Type",

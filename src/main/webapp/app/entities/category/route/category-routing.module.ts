@@ -6,6 +6,7 @@ import { CategoryComponent } from '../list/category.component';
 import { CategoryDetailComponent } from '../detail/category-detail.component';
 import { CategoryUpdateComponent } from '../update/category-update.component';
 import { CategoryRoutingResolveService } from './category-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const categoryRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const categoryRoute: Routes = [
     component: CategoryComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const categoryRoute: Routes = [
     resolve: {
       category: CategoryRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const categoryRoute: Routes = [
     resolve: {
       category: CategoryRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const categoryRoute: Routes = [
     component: CategoryUpdateComponent,
     resolve: {
       category: CategoryRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

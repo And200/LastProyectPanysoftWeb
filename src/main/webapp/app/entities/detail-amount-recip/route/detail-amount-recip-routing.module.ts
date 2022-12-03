@@ -6,6 +6,7 @@ import { DetailAmountRecipComponent } from '../list/detail-amount-recip.componen
 import { DetailAmountRecipDetailComponent } from '../detail/detail-amount-recip-detail.component';
 import { DetailAmountRecipUpdateComponent } from '../update/detail-amount-recip-update.component';
 import { DetailAmountRecipRoutingResolveService } from './detail-amount-recip-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const detailAmountRecipRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const detailAmountRecipRoute: Routes = [
     component: DetailAmountRecipComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const detailAmountRecipRoute: Routes = [
     resolve: {
       detailAmountRecip: DetailAmountRecipRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const detailAmountRecipRoute: Routes = [
     resolve: {
       detailAmountRecip: DetailAmountRecipRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const detailAmountRecipRoute: Routes = [
     component: DetailAmountRecipUpdateComponent,
     resolve: {
       detailAmountRecip: DetailAmountRecipRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

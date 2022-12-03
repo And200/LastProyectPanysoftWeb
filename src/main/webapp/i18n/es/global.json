@@ -31,6 +31,15 @@
         "provider": "Proveedor",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "baker": {
+        "main": "Panadero",
+        "category": "Categoría",
+        "recip": "Receta",
+        "product": "Productos",
+        "presentation": "Presentación",
+        "provider": "Proveedor",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
       "account": {
         "main": "Cuenta",
         "settings": "Ajustes",
