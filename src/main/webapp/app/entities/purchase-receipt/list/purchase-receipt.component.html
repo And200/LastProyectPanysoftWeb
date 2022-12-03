@@ -60,17 +60,19 @@
           <td>{{ purchaseReceipt.totalSale }}</td>
           <td>
             <div *ngIf="purchaseReceipt.employee">
-              <a [routerLink]="['/employee', purchaseReceipt.employee?.id, 'view']">{{ purchaseReceipt.employee?.id }}</a>
+              <a [routerLink]="['/employee', purchaseReceipt.employee?.id, 'view']">{{ purchaseReceipt.employee.person?.name }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="purchaseReceipt.detailSale">
-              <a [routerLink]="['/detail-sale', purchaseReceipt.detailSale?.id, 'view']">{{ purchaseReceipt.detailSale?.id }}</a>
+              <a [routerLink]="['/detail-sale', purchaseReceipt.detailSale?.id, 'view']">{{
+                purchaseReceipt.detailSale.product?.productName
+              }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="purchaseReceipt.client">
-              <a [routerLink]="['/client', purchaseReceipt.client?.id, 'view']">{{ purchaseReceipt.client?.id }}</a>
+              <a [routerLink]="['/client', purchaseReceipt.client?.id, 'view']">{{ purchaseReceipt.client.person?.name }}</a>
             </div>
           </td>
           <td class="text-end">
