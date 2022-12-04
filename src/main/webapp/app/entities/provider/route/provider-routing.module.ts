@@ -14,7 +14,7 @@ const providerRoute: Routes = [
     component: ProviderComponent,
     data: {
       defaultSort: 'id,asc',
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -25,7 +25,7 @@ const providerRoute: Routes = [
       provider: ProviderRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },

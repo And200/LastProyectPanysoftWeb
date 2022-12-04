@@ -173,7 +173,7 @@ public class ProviderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the providerDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/providers/{id}")
-    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<ProviderDTO> getProvider(@PathVariable Long id) {
         log.debug("REST request to get Provider : {}", id);
         Optional<ProviderDTO> providerDTO = providerService.findOne(id);

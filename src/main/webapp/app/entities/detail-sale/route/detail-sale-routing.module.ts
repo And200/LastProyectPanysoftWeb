@@ -6,6 +6,7 @@ import { DetailSaleComponent } from '../list/detail-sale.component';
 import { DetailSaleDetailComponent } from '../detail/detail-sale-detail.component';
 import { DetailSaleUpdateComponent } from '../update/detail-sale-update.component';
 import { DetailSaleRoutingResolveService } from './detail-sale-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const detailSaleRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const detailSaleRoute: Routes = [
     component: DetailSaleComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN, Authority.CASHIER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const detailSaleRoute: Routes = [
     resolve: {
       detailSale: DetailSaleRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.CASHIER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const detailSaleRoute: Routes = [
     resolve: {
       detailSale: DetailSaleRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.CASHIER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const detailSaleRoute: Routes = [
     component: DetailSaleUpdateComponent,
     resolve: {
       detailSale: DetailSaleRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN, Authority.CASHIER],
     },
     canActivate: [UserRouteAccessService],
   },

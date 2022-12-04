@@ -14,7 +14,7 @@ const inventoryRoute: Routes = [
     component: InventoryComponent,
     data: {
       defaultSort: 'id,asc',
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER, Authority.WAITER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -25,7 +25,7 @@ const inventoryRoute: Routes = [
       inventory: InventoryRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER, Authority.WAITER],
     },
     canActivate: [UserRouteAccessService],
   },
