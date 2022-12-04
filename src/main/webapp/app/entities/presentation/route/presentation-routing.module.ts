@@ -14,7 +14,7 @@ const presentationRoute: Routes = [
     component: PresentationComponent,
     data: {
       defaultSort: 'id,asc',
-      authorities: [Authority.ADMIN, Authority.BAKER],
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -25,7 +25,7 @@ const presentationRoute: Routes = [
       presentation: PresentationRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN, Authority.BAKER],
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

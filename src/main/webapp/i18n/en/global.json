@@ -11,26 +11,10 @@
         "product": "Product",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
-
-      "waiter": {
-        "main": "Waiter",
-        "product": "Product",
-        "inventory": "Inventory",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
-      },
-
-      "cashier": {
-        "main": "Cashier",
-        "purchaseReceipt": "Purchase Receipt",
-        "detailSale": "Detail Sale",
-        "product": "Product",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
-      },
       "baker": {
         "main": "Baker",
         "category": "Category",
         "recip": "Recip",
-        "inventory": "Inventory",
         "product": "Product",
         "presentation": "Presentation",
         "provider": "Provider",

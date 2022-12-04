@@ -25,7 +25,7 @@ const productRoute: Routes = [
       product: ProductRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN, Authority.BAKER, Authority.CASHIER, Authority.CLIENT, Authority.WAITER, Authority.CASHIER],
+      authorities: [Authority.ADMIN, Authority.BAKER, Authority.CASHIER, Authority.CLIENT, Authority.WAITER],
     },
     canActivate: [UserRouteAccessService],
   },

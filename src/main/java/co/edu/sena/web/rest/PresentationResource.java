@@ -189,15 +189,7 @@ public class PresentationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the presentationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/presentations/{id}")
-    @PreAuthorize(
-        "hasAuthority('" +
-        AuthoritiesConstants.ADMIN +
-        "')or hasAuthority('" +
-        AuthoritiesConstants.BAKER +
-        "')or hasAuthority('" +
-        AuthoritiesConstants.CASHIER +
-        "')"
-    )
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<PresentationDTO> getPresentation(@PathVariable Long id) {
         log.debug("REST request to get Presentation : {}", id);
         Optional<PresentationDTO> presentationDTO = presentationService.findOne(id);

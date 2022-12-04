@@ -14,7 +14,7 @@ const purchaseReceiptRoute: Routes = [
     component: PurchaseReceiptComponent,
     data: {
       defaultSort: 'id,asc',
-      authorities: [Authority.ADMIN, Authority.CASHIER],
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -25,7 +25,7 @@ const purchaseReceiptRoute: Routes = [
       purchaseReceipt: PurchaseReceiptRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN, Authority.CASHIER],
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -36,7 +36,7 @@ const purchaseReceiptRoute: Routes = [
       purchaseReceipt: PurchaseReceiptRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN, Authority.CASHIER],
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -47,7 +47,7 @@ const purchaseReceiptRoute: Routes = [
       purchaseReceipt: PurchaseReceiptRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN, Authority.CASHIER],
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
