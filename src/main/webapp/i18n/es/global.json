@@ -11,6 +11,19 @@
         "product": "Productos",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "cashier": {
+        "main": "cajero",
+        "purchaseReceipt": "Recibo De Compra",
+        "detailSale": "Detalle De Venta",
+        "product": "Productos",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "waiter": {
+        "main": "mesero",
+        "inventory": "Inventario",
+        "product": "Productos",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
       "entities": {
         "main": "Entidades",
         "documentType": "Tipo De documento",
@@ -31,6 +44,7 @@
         "provider": "Proveedor",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+
       "baker": {
         "main": "Panadero",
         "category": "Categoría",
@@ -40,6 +54,7 @@
         "provider": "Proveedor",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+
       "account": {
         "main": "Cuenta",
         "settings": "Ajustes",

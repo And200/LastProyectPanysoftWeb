@@ -40,6 +40,19 @@
         "provider": "Provider",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "cashier": {
+        "main": "Cashier",
+        "purchaseReceipt": "Purchase Receipt",
+        "detailSale": "Detail Sale",
+        "product": "Product",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "waiter": {
+        "main": "Waiter",
+        "inventory": "Inventory",
+        "product": "Product",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
       "account": {
         "main": "Account",
         "settings": "Settings",

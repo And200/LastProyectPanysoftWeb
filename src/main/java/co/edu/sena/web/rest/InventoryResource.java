@@ -167,7 +167,7 @@ public class InventoryResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of inventories in body.
      */
     @GetMapping("/inventories")
-    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.WAITER + "')")
     public ResponseEntity<List<InventoryDTO>> getAllInventories(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
@@ -190,7 +190,7 @@ public class InventoryResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the inventoryDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/inventories/{id}")
-    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.WAITER + "')")
     public ResponseEntity<InventoryDTO> getInventory(@PathVariable Long id) {
         log.debug("REST request to get Inventory : {}", id);
         Optional<InventoryDTO> inventoryDTO = inventoryService.findOne(id);

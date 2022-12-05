@@ -14,7 +14,7 @@ const recipRoute: Routes = [
     component: RecipComponent,
     data: {
       defaultSort: 'id,asc',
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -25,7 +25,7 @@ const recipRoute: Routes = [
       recip: RecipRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -36,7 +36,7 @@ const recipRoute: Routes = [
       recip: RecipRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -47,7 +47,7 @@ const recipRoute: Routes = [
       recip: RecipRoutingResolveService,
     },
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
