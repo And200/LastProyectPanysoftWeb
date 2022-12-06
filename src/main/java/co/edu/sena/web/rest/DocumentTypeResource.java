@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -100,14 +99,11 @@ public class DocumentTypeResource {
         @Valid @RequestBody DocumentTypeDTO documentTypeDTO
     ) throws URISyntaxException {
         log.debug("REST request to update DocumentType : {}, {}", id, documentTypeDTO);
-
-        Optional<DocumentType> documentTypeOptionalInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
-        Optional<DocumentType> documentTypeOptionalName = documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName());
-
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         } else if (
-            documentTypeOptionalInitials.isPresent() && !Objects.equals(documentTypeOptionalInitials.get().getId(), documentTypeDTO.getId())
+            documentTypeRepository.findByInitials(documentTypeDTO.getInitials()).isPresent() &&
+            !Objects.equals(documentTypeRepository.findByInitials(documentTypeDTO.getInitials()).get().getId(), documentTypeDTO.getId())
         ) {
             throw new BadRequestAlertException(
                 "A new documentType cannot already have an  Initials that already exists",
@@ -115,19 +111,20 @@ public class DocumentTypeResource {
                 "initialExists"
             );
         } else if (
-            documentTypeOptionalName.isPresent() && !Objects.equals(documentTypeOptionalName.get().getId(), documentTypeDTO.getId())
+            documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName()).isPresent() &&
+            !Objects.equals(
+                documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName()).get().getId(),
+                documentTypeDTO.getId()
+            )
         ) {
             throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
-
         if (!Objects.equals(id, documentTypeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!documentTypeRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         DocumentTypeDTO result = documentTypeService.update(documentTypeDTO);
         return ResponseEntity
             .ok()
@@ -153,7 +150,6 @@ public class DocumentTypeResource {
         @NotNull @RequestBody DocumentTypeDTO documentTypeDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update DocumentType partially : {}, {}", id, documentTypeDTO);
-
         Optional<DocumentType> documentTypeOptionalInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
         Optional<DocumentType> documentTypeOptionalName = documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName());
 
@@ -175,11 +171,9 @@ public class DocumentTypeResource {
         if (!Objects.equals(id, documentTypeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!documentTypeRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         Optional<DocumentTypeDTO> result = documentTypeService.partialUpdate(documentTypeDTO);
 
         return ResponseUtil.wrapOrNotFound(
@@ -232,7 +226,6 @@ public class DocumentTypeResource {
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestAlertException("This document is already used for other entity", ENTITY_NAME, "entityDepends");
         }
-
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
