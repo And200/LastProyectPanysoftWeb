@@ -95,7 +95,6 @@ public class DetailOrderResource {
         if (!Objects.equals(id, detailOrderDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!detailOrderRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }

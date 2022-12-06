@@ -95,11 +95,9 @@ public class OrderPlacedResource {
         if (!Objects.equals(id, orderPlacedDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!orderPlacedRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         OrderPlacedDTO result = orderPlacedService.update(orderPlacedDTO);
         return ResponseEntity
             .ok()

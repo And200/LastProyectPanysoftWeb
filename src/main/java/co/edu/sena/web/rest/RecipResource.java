@@ -60,7 +60,6 @@ public class RecipResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<RecipDTO> createRecip(@Valid @RequestBody RecipDTO recipDTO) throws URISyntaxException {
         log.debug("REST request to save Recip : {}", recipDTO);
-
         if (recipDTO.getId() != null) {
             throw new BadRequestAlertException("A new recip cannot already have an ID", ENTITY_NAME, "idexists");
         } else if (recipRepository.findByNameRecip(recipDTO.getNameRecip()).isPresent()) {
@@ -96,11 +95,9 @@ public class RecipResource {
         if (!Objects.equals(id, recipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!recipRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         RecipDTO result = recipService.update(recipDTO);
         return ResponseEntity
             .ok()
@@ -132,7 +129,6 @@ public class RecipResource {
         if (!Objects.equals(id, recipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!recipRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }

@@ -94,7 +94,6 @@ public class PurchaseReceiptResource {
         if (!Objects.equals(id, purchaseReceiptDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!purchaseReceiptRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
@@ -130,11 +129,9 @@ public class PurchaseReceiptResource {
         if (!Objects.equals(id, purchaseReceiptDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!purchaseReceiptRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         Optional<PurchaseReceiptDTO> result = purchaseReceiptService.partialUpdate(purchaseReceiptDTO);
 
         return ResponseUtil.wrapOrNotFound(
