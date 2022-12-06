@@ -106,13 +106,17 @@ public class DocumentTypeResource {
 
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (documentTypeOptionalInitials.isPresent() && documentTypeOptionalInitials.get().getId() != documentTypeDTO.getId()) {
+        } else if (
+            documentTypeOptionalInitials.isPresent() && !Objects.equals(documentTypeOptionalInitials.get().getId(), documentTypeDTO.getId())
+        ) {
             throw new BadRequestAlertException(
                 "A new documentType cannot already have an  Initials that already exists",
                 ENTITY_NAME,
                 "initialExists"
             );
-        } else if (documentTypeOptionalName.isPresent() && documentTypeOptionalName.get().getId() != documentTypeDTO.getId()) {
+        } else if (
+            documentTypeOptionalName.isPresent() && !Objects.equals(documentTypeOptionalName.get().getId(), documentTypeDTO.getId())
+        ) {
             throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
 
@@ -155,13 +159,17 @@ public class DocumentTypeResource {
 
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (documentTypeOptionalInitials.isPresent() && documentTypeOptionalInitials.get().getId() != documentTypeDTO.getId()) {
+        } else if (
+            documentTypeOptionalInitials.isPresent() && !Objects.equals(documentTypeOptionalInitials.get().getId(), documentTypeDTO.getId())
+        ) {
             throw new BadRequestAlertException(
                 "A new documentType cannot already have an  Initials that already exists",
                 ENTITY_NAME,
                 "initialExists"
             );
-        } else if (documentTypeOptionalName.isPresent() && documentTypeOptionalName.get().getId() != documentTypeDTO.getId()) {
+        } else if (
+            documentTypeOptionalName.isPresent() && !Objects.equals(documentTypeOptionalName.get().getId(), documentTypeDTO.getId())
+        ) {
             throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
         if (!Objects.equals(id, documentTypeDTO.getId())) {
