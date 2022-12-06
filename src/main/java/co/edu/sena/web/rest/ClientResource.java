@@ -73,7 +73,6 @@ public class ClientResource {
                 throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
             }
         }
-
         ClientDTO result = clientService.save(clientDTO);
         return ResponseEntity
             .created(new URI("/api/clients/" + result.getId()))
@@ -104,11 +103,9 @@ public class ClientResource {
         if (!Objects.equals(id, clientDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!clientRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         ClientDTO result = clientService.update(clientDTO);
         return ResponseEntity
             .ok()

@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -98,24 +99,22 @@ public class CategoryResource {
         @Valid @RequestBody CategoryDTO categoryDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Category : {}, {}", id, categoryDTO);
-        Optional<Category> categoryOptional = categoryRepository.findById(categoryDTO.getId());
-        CategoryDTO categoryCompare = null;
-        if (categoryOptional.isPresent()) {
-            categoryCompare = categoryMapper.toDto(categoryOptional.get());
-        }
-
+        Optional<Category> categoryOptional = categoryRepository.findByNameCategory(categoryDTO.getNameCategory());
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (categoryOptional.isPresent() && !Objects.equals(categoryOptional.get().getId(), categoryDTO.getId())) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
         }
-
         if (!Objects.equals(id, categoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!categoryRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         CategoryDTO result = categoryService.update(categoryDTO);
         return ResponseEntity
             .ok()
@@ -141,8 +140,15 @@ public class CategoryResource {
         @NotNull @RequestBody CategoryDTO categoryDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Category partially : {}, {}", id, categoryDTO);
+        Optional<Category> categoryOptional = categoryRepository.findByNameCategory(categoryDTO.getNameCategory());
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (categoryOptional.isPresent() && !Objects.equals(categoryOptional.get().getId(), categoryDTO.getId())) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
         }
         if (!Objects.equals(id, categoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -199,7 +205,11 @@ public class CategoryResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         log.debug("REST request to delete Category : {}", id);
-        categoryService.delete(id);
+        try {
+            categoryService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This document is already used for other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
