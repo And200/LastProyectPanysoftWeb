@@ -102,12 +102,14 @@ public class CategoryResource {
         Optional<Category> categoryOptional = categoryRepository.findByNameCategory(categoryDTO.getNameCategory());
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (categoryOptional.isPresent() && !Objects.equals(categoryOptional.get().getId(), categoryDTO.getId())) {
-            throw new BadRequestAlertException(
-                "A new category cannot have an already existing name Category",
-                ENTITY_NAME,
-                "categoryNameExists"
-            );
+        } else if (categoryOptional.isPresent()) {
+            if (!Objects.equals(categoryOptional.get().getId(), categoryDTO.getId())) {
+                throw new BadRequestAlertException(
+                    "A new category cannot have an already existing name Category",
+                    ENTITY_NAME,
+                    "categoryNameExists"
+                );
+            }
         }
         if (!Objects.equals(id, categoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -143,12 +145,14 @@ public class CategoryResource {
         Optional<Category> categoryOptional = categoryRepository.findByNameCategory(categoryDTO.getNameCategory());
         if (categoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (categoryOptional.isPresent() && !Objects.equals(categoryOptional.get().getId(), categoryDTO.getId())) {
-            throw new BadRequestAlertException(
-                "A new category cannot have an already existing name Category",
-                ENTITY_NAME,
-                "categoryNameExists"
-            );
+        } else if (categoryOptional.isPresent()) {
+            if (!Objects.equals(categoryOptional.get().getId(), categoryDTO.getId())) {
+                throw new BadRequestAlertException(
+                    "A new category cannot have an already existing name Category",
+                    ENTITY_NAME,
+                    "categoryNameExists"
+                );
+            }
         }
         if (!Objects.equals(id, categoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
