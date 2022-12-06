@@ -104,7 +104,6 @@ public class DocumentTypeResource {
         Optional<DocumentType> documentTypeOptionalInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
         Optional<DocumentType> documentTypeOptionalName = documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName());
 
-        log.debug(documentTypeOptionalInitials.get().toString());
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         } else if (documentTypeOptionalInitials.isPresent() && documentTypeOptionalInitials.get().getId() != documentTypeDTO.getId()) {
