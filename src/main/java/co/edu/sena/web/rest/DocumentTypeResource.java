@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DocumentType;
 import co.edu.sena.repository.DocumentTypeRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DocumentTypeService;
@@ -10,11 +11,13 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -97,9 +100,23 @@ public class DocumentTypeResource {
         @Valid @RequestBody DocumentTypeDTO documentTypeDTO
     ) throws URISyntaxException {
         log.debug("REST request to update DocumentType : {}, {}", id, documentTypeDTO);
+
+        Optional<DocumentType> documentTypeOptionalInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
+        Optional<DocumentType> documentTypeOptionalName = documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName());
+
+        log.debug(documentTypeOptionalInitials.get().toString());
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (documentTypeOptionalInitials.isPresent() && documentTypeOptionalInitials.get().getId() != documentTypeDTO.getId()) {
+            throw new BadRequestAlertException(
+                "A new documentType cannot already have an  Initials that already exists",
+                ENTITY_NAME,
+                "initialExists"
+            );
+        } else if (documentTypeOptionalName.isPresent() && documentTypeOptionalName.get().getId() != documentTypeDTO.getId()) {
+            throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
+
         if (!Objects.equals(id, documentTypeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
@@ -133,8 +150,20 @@ public class DocumentTypeResource {
         @NotNull @RequestBody DocumentTypeDTO documentTypeDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update DocumentType partially : {}, {}", id, documentTypeDTO);
+
+        Optional<DocumentType> documentTypeOptionalInitials = documentTypeRepository.findByInitials(documentTypeDTO.getInitials());
+        Optional<DocumentType> documentTypeOptionalName = documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName());
+
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (documentTypeOptionalInitials.isPresent() && documentTypeOptionalInitials.get().getId() != documentTypeDTO.getId()) {
+            throw new BadRequestAlertException(
+                "A new documentType cannot already have an  Initials that already exists",
+                ENTITY_NAME,
+                "initialExists"
+            );
+        } else if (documentTypeOptionalName.isPresent() && documentTypeOptionalName.get().getId() != documentTypeDTO.getId()) {
+            throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
         }
         if (!Objects.equals(id, documentTypeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -191,7 +220,12 @@ public class DocumentTypeResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDocumentType(@PathVariable Long id) {
         log.debug("REST request to delete DocumentType : {}", id);
-        documentTypeService.delete(id);
+        try {
+            documentTypeService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This document is already used for other entity", ENTITY_NAME, "entityDepends");
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
