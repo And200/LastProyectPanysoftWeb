@@ -147,22 +147,12 @@ public class EmployeeResource {
         @NotNull @RequestBody EmployeeDTO employeeDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Employee partially : {}, {}", id, employeeDTO);
-        Optional<Person> personOptional = personRepository.findById(employeeDTO.getPerson().getId());
-        Optional<Employee> employeeOptional = Optional.empty();
-        if (personOptional.isPresent()) {
-            employeeOptional = employeeRepository.findByPerson(personOptional.get());
-        }
         if (employeeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (employeeOptional.isPresent()) {
-            if (!Objects.equals(employeeOptional.get().getId(), employeeDTO.getId())) {
-                throw new BadRequestAlertException("an Employee with that person already exist", ENTITY_NAME, "employeeExist");
-            }
         }
         if (!Objects.equals(id, employeeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!employeeRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
