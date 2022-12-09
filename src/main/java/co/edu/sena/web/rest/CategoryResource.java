@@ -211,7 +211,7 @@ public class CategoryResource {
         try {
             categoryService.delete(id);
         } catch (DataIntegrityViolationException e) {
-            throw new BadRequestAlertException("This document is already used for other entity", ENTITY_NAME, "entityDepends");
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
         }
         return ResponseEntity
             .noContent()

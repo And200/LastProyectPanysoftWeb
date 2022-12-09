@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Client;
 import co.edu.sena.domain.Person;
 import co.edu.sena.repository.ClientRepository;
 import co.edu.sena.repository.PersonRepository;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -97,8 +99,15 @@ public class ClientResource {
         @Valid @RequestBody ClientDTO clientDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Client : {}, {}", id, clientDTO);
+        Optional<Person> personOptional = personRepository.findById(clientDTO.getPerson().getId());
         if (clientDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (personOptional.isPresent()) {
+            if (clientRepository.findByPerson(personOptional.get()).isPresent()) {
+                if (!Objects.equals(clientRepository.findByPerson(personOptional.get()).get().getId(), clientDTO.getId())) {
+                    throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
+                }
+            }
         }
         if (!Objects.equals(id, clientDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -198,7 +207,11 @@ public class ClientResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         log.debug("REST request to delete Client : {}", id);
-        clientService.delete(id);
+        try {
+            clientService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
