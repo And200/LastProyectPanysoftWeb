@@ -142,13 +142,21 @@ public class ClientResource {
         @NotNull @RequestBody ClientDTO clientDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Client partially : {}, {}", id, clientDTO);
+        Optional<Person> personOptional = personRepository.findById(clientDTO.getPerson().getId());
+        Optional<Client> clientOptional = Optional.empty();
+        if (personOptional.isPresent()) {
+            clientOptional = clientRepository.findByPerson(personOptional.get());
+        }
         if (clientDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (clientOptional.isPresent()) {
+            if (!Objects.equals(clientOptional.get().getId(), clientDTO.getId())) {
+                throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
+            }
         }
         if (!Objects.equals(id, clientDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!clientRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }

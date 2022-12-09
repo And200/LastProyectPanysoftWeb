@@ -1,5 +1,7 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Client;
+import co.edu.sena.domain.Employee;
 import co.edu.sena.domain.Person;
 import co.edu.sena.repository.EmployeeRepository;
 import co.edu.sena.repository.PersonRepository;
@@ -17,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -99,8 +102,17 @@ public class EmployeeResource {
         @Valid @RequestBody EmployeeDTO employeeDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Employee : {}, {}", id, employeeDTO);
+        Optional<Person> personOptional = personRepository.findById(employeeDTO.getPerson().getId());
+        Optional<Employee> employeeOptional = Optional.empty();
+        if (personOptional.isPresent()) {
+            employeeOptional = employeeRepository.findByPerson(personOptional.get());
+        }
         if (employeeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (employeeOptional.isPresent()) {
+            if (!Objects.equals(employeeOptional.get().getId(), employeeDTO.getId())) {
+                throw new BadRequestAlertException("an Employee with that person already exist", ENTITY_NAME, "employeeExist");
+            }
         }
         if (!Objects.equals(id, employeeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -135,8 +147,17 @@ public class EmployeeResource {
         @NotNull @RequestBody EmployeeDTO employeeDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Employee partially : {}, {}", id, employeeDTO);
+        Optional<Person> personOptional = personRepository.findById(employeeDTO.getPerson().getId());
+        Optional<Employee> employeeOptional = Optional.empty();
+        if (personOptional.isPresent()) {
+            employeeOptional = employeeRepository.findByPerson(personOptional.get());
+        }
         if (employeeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (employeeOptional.isPresent()) {
+            if (!Objects.equals(employeeOptional.get().getId(), employeeDTO.getId())) {
+                throw new BadRequestAlertException("an Employee with that person already exist", ENTITY_NAME, "employeeExist");
+            }
         }
         if (!Objects.equals(id, employeeDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -202,7 +223,11 @@ public class EmployeeResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
         log.debug("REST request to delete Employee : {}", id);
-        employeeService.delete(id);
+        try {
+            employeeService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
