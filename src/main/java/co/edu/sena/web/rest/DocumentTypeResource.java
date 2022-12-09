@@ -103,7 +103,8 @@ public class DocumentTypeResource {
         Optional<DocumentType> documentTypeOptionalName = documentTypeRepository.findByDocumentName(documentTypeDTO.getDocumentName());
         if (documentTypeDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (documentTypeOptionalInitials.isPresent()) {
+        }
+        if (documentTypeOptionalInitials.isPresent()) {
             if (!Objects.equals(documentTypeOptionalInitials.get().getId(), documentTypeDTO.getId())) {
                 throw new BadRequestAlertException(
                     "A new documentType cannot already have an  Initials that already exists",
@@ -111,7 +112,8 @@ public class DocumentTypeResource {
                     "initialExists"
                 );
             }
-        } else if (documentTypeOptionalName.isPresent()) {
+        }
+        if (documentTypeOptionalName.isPresent()) {
             if (!Objects.equals(documentTypeOptionalName.get().getId(), documentTypeDTO.getId())) {
                 throw new BadRequestAlertException("Already Exist and Document Type with that document Name", ENTITY_NAME, "nameExists");
             }

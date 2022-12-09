@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DetailOrder;
 import co.edu.sena.repository.DetailOrderRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailOrderService;
@@ -89,8 +90,13 @@ public class DetailOrderResource {
         @Valid @RequestBody DetailOrderDTO detailOrderDTO
     ) throws URISyntaxException {
         log.debug("REST request to update DetailOrder : {}, {}", id, detailOrderDTO);
+        Optional<DetailOrder> detailOrderOptional = detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber());
         if (detailOrderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (detailOrderOptional.isPresent()) {
+            if (!Objects.equals(detailOrderOptional.get().getId(), detailOrderDTO.getId())) {
+                throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "invoiceNumberExist");
+            }
         }
         if (!Objects.equals(id, detailOrderDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -124,8 +130,13 @@ public class DetailOrderResource {
         @NotNull @RequestBody DetailOrderDTO detailOrderDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update DetailOrder partially : {}, {}", id, detailOrderDTO);
+        Optional<DetailOrder> detailOrderOptional = detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber());
         if (detailOrderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (detailOrderOptional.isPresent()) {
+            if (!Objects.equals(detailOrderOptional.get().getId(), detailOrderDTO.getId())) {
+                throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "invoiceNumberExist");
+            }
         }
         if (!Objects.equals(id, detailOrderDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
