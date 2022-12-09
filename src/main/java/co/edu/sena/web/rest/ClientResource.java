@@ -100,13 +100,16 @@ public class ClientResource {
     ) throws URISyntaxException {
         log.debug("REST request to update Client : {}, {}", id, clientDTO);
         Optional<Person> personOptional = personRepository.findById(clientDTO.getPerson().getId());
+        Optional<Client> clientOptional = null;
+        if (personOptional.isPresent()) {
+            clientOptional = clientRepository.findByPerson(personOptional.get());
+        }
         if (clientDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (personOptional.isPresent()) {
-            if (clientRepository.findByPerson(personOptional.get()).isPresent()) {
-                if (!Objects.equals(clientRepository.findByPerson(personOptional.get()).get().getId(), clientDTO.getId())) {
-                    throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
-                }
+        }
+        if (clientOptional.isPresent()) {
+            if (!Objects.equals(clientOptional.get().getId(), clientDTO.getId())) {
+                throw new BadRequestAlertException("The client with that person already exist", ENTITY_NAME, "clientExist");
             }
         }
         if (!Objects.equals(id, clientDTO.getId())) {
