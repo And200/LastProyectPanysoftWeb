@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DetailAmountRecip;
 import co.edu.sena.domain.Product;
 import co.edu.sena.domain.Recip;
 import co.edu.sena.repository.DetailAmountRecipRepository;
@@ -114,19 +115,14 @@ public class DetailAmountRecipResource {
         log.debug("REST request to update DetailAmountRecip : {}, {}", id, detailAmountRecipDTO);
         Optional<Recip> recipOptional = recipRepository.findById(detailAmountRecipDTO.getRecip().getId());
         Optional<Product> productOptional = productRepository.findById(detailAmountRecipDTO.getProduct().getId());
+        Optional<DetailAmountRecip> detailAmountRecipOptional = Optional.empty();
+        if (productOptional.isPresent() && recipOptional.isPresent()) {
+            detailAmountRecipOptional = detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get());
+        }
         if (detailAmountRecipDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        } else if (recipOptional.isEmpty()) {
-            throw new BadRequestAlertException("The Recip doesn't exist", ENTITY_NAME, "recipNotExist");
-        } else if (productOptional.isEmpty()) {
-            throw new BadRequestAlertException("The Product doesn't exist", ENTITY_NAME, "productNotExist");
-        } else if (detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get()).isPresent()) {
-            if (
-                !Objects.equals(
-                    detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get()).get().getId(),
-                    detailAmountRecipDTO.getId()
-                )
-            ) {
+        } else if (detailAmountRecipOptional.isPresent()) {
+            if (!Objects.equals(detailAmountRecipOptional.get().getId(), detailAmountRecipDTO.getId())) {
                 throw new BadRequestAlertException(
                     "There is already a product with these characteristics",
                     ENTITY_NAME,
