@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Provider;
 import co.edu.sena.repository.ProviderRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.ProviderService;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -95,8 +97,40 @@ public class ProviderResource {
         @Valid @RequestBody ProviderDTO providerDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Provider : {}, {}", id, providerDTO);
+        Optional<Provider> providerOptionalName = providerRepository.findByName(providerDTO.getName());
+        Optional<Provider> providerOptionalPhone = providerRepository.findByPhone(providerDTO.getPhone());
+        Optional<Provider> providerOptionalNit = providerRepository.findByNit(providerDTO.getNit());
+        Optional<Provider> providerOptionalEmail = providerRepository.findByEmail(providerDTO.getEmail());
         if (providerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (providerOptionalName.isPresent()) {
+            if (!Objects.equals(providerOptionalName.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "The email already exist",
+                ENTITY_NAME,
+                "NameProviderExist"
+            );
+        }
+        if (providerOptionalPhone.isPresent()) {
+            if (!Objects.equals(providerOptionalPhone.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "The provide Name Already Exist",
+                ENTITY_NAME,
+                "PhoneExist"
+            );
+        }
+        if (providerOptionalNit.isPresent()) {
+            if (!Objects.equals(providerOptionalNit.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "A new provider cannot already have an existing phone",
+                ENTITY_NAME,
+                "NitAlreadyExist"
+            );
+        }
+        if (providerOptionalEmail.isPresent()) {
+            if (!Objects.equals(providerOptionalEmail.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "Already exist a provider with these nit",
+                ENTITY_NAME,
+                "EmailExist"
+            );
         }
         if (!Objects.equals(id, providerDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -130,8 +164,40 @@ public class ProviderResource {
         @NotNull @RequestBody ProviderDTO providerDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Provider partially : {}, {}", id, providerDTO);
+        Optional<Provider> providerOptionalName = providerRepository.findByName(providerDTO.getName());
+        Optional<Provider> providerOptionalPhone = providerRepository.findByPhone(providerDTO.getPhone());
+        Optional<Provider> providerOptionalNit = providerRepository.findByNit(providerDTO.getNit());
+        Optional<Provider> providerOptionalEmail = providerRepository.findByEmail(providerDTO.getEmail());
         if (providerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (providerOptionalName.isPresent()) {
+            if (!Objects.equals(providerOptionalName.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "The email already exist",
+                ENTITY_NAME,
+                "NameProviderExist"
+            );
+        }
+        if (providerOptionalPhone.isPresent()) {
+            if (!Objects.equals(providerOptionalPhone.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "The provide Name Already Exist",
+                ENTITY_NAME,
+                "PhoneExist"
+            );
+        }
+        if (providerOptionalNit.isPresent()) {
+            if (!Objects.equals(providerOptionalNit.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "A new provider cannot already have an existing phone",
+                ENTITY_NAME,
+                "NitAlreadyExist"
+            );
+        }
+        if (providerOptionalEmail.isPresent()) {
+            if (!Objects.equals(providerOptionalEmail.get().getId(), providerDTO.getId())) throw new BadRequestAlertException(
+                "Already exist a provider with these nit",
+                ENTITY_NAME,
+                "EmailExist"
+            );
         }
         if (!Objects.equals(id, providerDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -185,7 +251,11 @@ public class ProviderResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteProvider(@PathVariable Long id) {
         log.debug("REST request to delete Provider : {}", id);
-        providerService.delete(id);
+        try {
+            providerService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

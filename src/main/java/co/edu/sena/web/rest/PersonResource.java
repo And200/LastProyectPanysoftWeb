@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -92,11 +93,14 @@ public class PersonResource {
         @Valid @RequestBody PersonDTO personDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Person : {}, {}", id, personDTO);
-
+        Optional<Person> personOptional = personRepository.findByEmail(personDTO.getEmail());
         if (personDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (personOptional.isPresent()) {
+            if (!Objects.equals(personOptional.get().getId(), personDTO.getId())) {
+                throw new BadRequestAlertException("The email already exist", ENTITY_NAME, "EmailExist");
+            }
         }
-
         if (!Objects.equals(id, personDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
@@ -131,17 +135,20 @@ public class PersonResource {
         @NotNull @RequestBody PersonDTO personDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Person partially : {}, {}", id, personDTO);
+        Optional<Person> personOptional = personRepository.findByEmail(personDTO.getEmail());
         if (personDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (personOptional.isPresent()) {
+            if (!Objects.equals(personOptional.get().getId(), personDTO.getId())) {
+                throw new BadRequestAlertException("The email already exist", ENTITY_NAME, "EmailExist");
+            }
         }
         if (!Objects.equals(id, personDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!personRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         Optional<PersonDTO> result = personService.partialUpdate(personDTO);
 
         return ResponseUtil.wrapOrNotFound(
@@ -198,7 +205,11 @@ public class PersonResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         log.debug("REST request to delete Person : {}", id);
-        personService.delete(id);
+        try {
+            personService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

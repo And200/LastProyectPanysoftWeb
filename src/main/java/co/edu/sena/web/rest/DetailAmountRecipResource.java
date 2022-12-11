@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -230,7 +231,11 @@ public class DetailAmountRecipResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDetailAmountRecip(@PathVariable Long id) {
         log.debug("REST request to delete DetailAmountRecip : {}", id);
-        detailAmountRecipService.delete(id);
+        try {
+            detailAmountRecipService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

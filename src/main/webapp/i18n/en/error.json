@@ -28,6 +28,7 @@
     "PhoneExist": "Already exist an Provider with these Phone Number",
     "NitAlreadyExist": "Already exist an Provider with that Name",
     "RecipNameExist": "Already exist an Recip with that Name",
-    "initialExists": "Already exist an Document with these initials"
+    "initialExists": "Already exist an Document with these initials",
+    "entityDepends": "This entity cannot be deleted, it is being used by another"
   }
 }

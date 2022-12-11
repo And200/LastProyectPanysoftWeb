@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Product;
 import co.edu.sena.repository.ProductRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.ProductService;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -89,8 +91,13 @@ public class ProductResource {
         @Valid @RequestBody ProductDTO productDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Product : {}, {}", id, productDTO);
+        Optional<Product> productOptional = productRepository.findByProductName(productDTO.getProductName());
         if (productDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (productOptional.isPresent()) {
+            if (!Objects.equals(productOptional.get().getId(), productDTO.getId())) {
+                throw new BadRequestAlertException("Already exist a product with These Name", ENTITY_NAME, "ProductNameExist");
+            }
         }
         if (!Objects.equals(id, productDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -125,8 +132,13 @@ public class ProductResource {
         @NotNull @RequestBody ProductDTO productDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Product partially : {}, {}", id, productDTO);
+        Optional<Product> productOptional = productRepository.findByProductName(productDTO.getProductName());
         if (productDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (productOptional.isPresent()) {
+            if (!Objects.equals(productOptional.get().getId(), productDTO.getId())) {
+                throw new BadRequestAlertException("Already exist a product with These Name", ENTITY_NAME, "ProductNameExist");
+            }
         }
         if (!Objects.equals(id, productDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -220,7 +232,11 @@ public class ProductResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "') ")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         log.debug("REST request to delete Product : {}", id);
-        productService.delete(id);
+        try {
+            productService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

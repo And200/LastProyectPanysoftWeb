@@ -28,6 +28,7 @@
     "PhoneExist": "Ya existe un proveedor con ese número de teléfono ",
     "NitAlreadyExist": "Ya existe un proveedor con ese Numero De Identificación Tributaria",
     "RecipNameExist": "El nombre de la receta ya existe",
-    "initialExists": "Ya existe un documento con esas mismas iniciales"
+    "initialExists": "Ya existe un documento con esas mismas iniciales",
+    "entityDepends": "Esta entidad No se puede eliminar , esta siendo usada por otra"
   }
 }

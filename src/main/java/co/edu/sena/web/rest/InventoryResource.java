@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Inventory;
 import co.edu.sena.domain.Product;
 import co.edu.sena.repository.InventoryRepository;
 import co.edu.sena.repository.ProductRepository;
@@ -12,11 +13,13 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -69,9 +72,7 @@ public class InventoryResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<InventoryDTO> createInventory(@Valid @RequestBody InventoryDTO inventoryDTO) throws URISyntaxException {
         log.debug("REST request to save Inventory : {}", inventoryDTO);
-
         Optional<Product> productOptional = productRepository.findById(inventoryDTO.getProduct().getId());
-
         if (inventoryDTO.getId() != null) {
             throw new BadRequestAlertException("A new inventory cannot already have an ID", ENTITY_NAME, "idexists");
         } else if (productOptional.isPresent()) {
@@ -103,8 +104,17 @@ public class InventoryResource {
         @Valid @RequestBody InventoryDTO inventoryDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Inventory : {}, {}", id, inventoryDTO);
+        Optional<Product> productOptional = productRepository.findById(inventoryDTO.getProduct().getId());
+        Optional<Inventory> inventoryOptional = Optional.empty();
+        if (productOptional.isPresent()) {
+            inventoryOptional = inventoryRepository.findByProduct(productOptional.get());
+        }
         if (inventoryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (inventoryOptional.isPresent()) {
+            if (!Objects.equals(inventoryOptional.get().getId(), inventoryDTO.getId())) {
+                throw new BadRequestAlertException("The Inventory Exist", ENTITY_NAME, "inventoryExist");
+            }
         }
         if (!Objects.equals(id, inventoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -144,7 +154,6 @@ public class InventoryResource {
         if (!Objects.equals(id, inventoryDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!inventoryRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
@@ -205,7 +214,11 @@ public class InventoryResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteInventory(@PathVariable Long id) {
         log.debug("REST request to delete Inventory : {}", id);
-        inventoryService.delete(id);
+        try {
+            inventoryService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

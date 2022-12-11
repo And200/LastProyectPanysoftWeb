@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Recip;
 import co.edu.sena.repository.RecipRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.RecipService;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -89,8 +91,13 @@ public class RecipResource {
         @Valid @RequestBody RecipDTO recipDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Recip : {}, {}", id, recipDTO);
+        Optional<Recip> recipOptional = recipRepository.findByNameRecip(recipDTO.getNameRecip());
         if (recipDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (recipOptional.isPresent()) {
+            if (!Objects.equals(recipOptional.get().getId(), recipDTO.getId())) {
+                throw new BadRequestAlertException("The Recip Name already exist", ENTITY_NAME, "RecipNameExist");
+            }
         }
         if (!Objects.equals(id, recipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -123,8 +130,13 @@ public class RecipResource {
         @NotNull @RequestBody RecipDTO recipDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Recip partially : {}, {}", id, recipDTO);
+        Optional<Recip> recipOptional = recipRepository.findByNameRecip(recipDTO.getNameRecip());
         if (recipDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (recipOptional.isPresent()) {
+            if (!Objects.equals(recipOptional.get().getId(), recipDTO.getId())) {
+                throw new BadRequestAlertException("The Recip Name already exist", ENTITY_NAME, "RecipNameExist");
+            }
         }
         if (!Objects.equals(id, recipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -132,9 +144,7 @@ public class RecipResource {
         if (!recipRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         Optional<RecipDTO> result = recipService.partialUpdate(recipDTO);
-
         return ResponseUtil.wrapOrNotFound(
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, recipDTO.getId().toString())
@@ -180,7 +190,11 @@ public class RecipResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.BAKER + "')")
     public ResponseEntity<Void> deleteRecip(@PathVariable Long id) {
         log.debug("REST request to delete Recip : {}", id);
-        recipService.delete(id);
+        try {
+            recipService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
