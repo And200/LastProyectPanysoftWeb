@@ -29,6 +29,6 @@
     "NitAlreadyExist": "Already exist an Provider with that Name",
     "RecipNameExist": "Already exist an Recip with that Name",
     "initialExists": "Already exist an Document with these initials",
-    "entityDepends": "This entity cannot be deleted, it is being used by another"
+    "entityDepends": "This entity  cannot be deleted, it is being used by another"
   }
 }
