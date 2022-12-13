@@ -6,6 +6,7 @@ import { ProductComponent } from '../list/product.component';
 import { ProductDetailComponent } from '../detail/product-detail.component';
 import { ProductUpdateComponent } from '../update/product-update.component';
 import { ProductRoutingResolveService } from './product-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const productRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const productRoute: Routes = [
     component: ProductComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN, Authority.BAKER, Authority.CASHIER, Authority.CLIENT, Authority.WAITER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const productRoute: Routes = [
     resolve: {
       product: ProductRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER, Authority.CASHIER, Authority.CLIENT, Authority.WAITER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const productRoute: Routes = [
     resolve: {
       product: ProductRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const productRoute: Routes = [
     component: ProductUpdateComponent,
     resolve: {
       product: ProductRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },

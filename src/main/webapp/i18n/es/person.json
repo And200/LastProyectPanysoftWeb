@@ -2,7 +2,7 @@
   "panysoftApp": {
     "person": {
       "home": {
-        "title": "People",
+        "title": "Personas",
         "refreshListLabel": "Refrescar lista",
         "createLabel": "Crear nueva Persona",
         "createOrEditLabel": "Crear o editar Persona",

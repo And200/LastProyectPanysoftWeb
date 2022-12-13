@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.OrderPlaced;
 import co.edu.sena.repository.OrderPlacedRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.OrderPlacedService;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -89,17 +91,20 @@ public class OrderPlacedResource {
         @Valid @RequestBody OrderPlacedDTO orderPlacedDTO
     ) throws URISyntaxException {
         log.debug("REST request to update OrderPlaced : {}, {}", id, orderPlacedDTO);
+        Optional<OrderPlaced> orderPlacedOptional = orderPlacedRepository.findByOrderPlacedState(orderPlacedDTO.getOrderPlacedState());
         if (orderPlacedDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (orderPlacedOptional.isPresent()) {
+            if (!Objects.equals(orderPlacedOptional.get().getId(), orderPlacedDTO.getId())) {
+                throw new BadRequestAlertException("the order state already exist", ENTITY_NAME, "stateAlreadyExist");
+            }
         }
         if (!Objects.equals(id, orderPlacedDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!orderPlacedRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         OrderPlacedDTO result = orderPlacedService.update(orderPlacedDTO);
         return ResponseEntity
             .ok()
@@ -125,8 +130,13 @@ public class OrderPlacedResource {
         @NotNull @RequestBody OrderPlacedDTO orderPlacedDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update OrderPlaced partially : {}, {}", id, orderPlacedDTO);
+        Optional<OrderPlaced> orderPlacedOptional = orderPlacedRepository.findByOrderPlacedState(orderPlacedDTO.getOrderPlacedState());
         if (orderPlacedDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (orderPlacedOptional.isPresent()) {
+            if (!Objects.equals(orderPlacedOptional.get().getId(), orderPlacedDTO.getId())) {
+                throw new BadRequestAlertException("the order state already exist", ENTITY_NAME, "stateAlreadyExist");
+            }
         }
         if (!Objects.equals(id, orderPlacedDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -183,7 +193,11 @@ public class OrderPlacedResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteOrderPlaced(@PathVariable Long id) {
         log.debug("REST request to delete OrderPlaced : {}", id);
-        orderPlacedService.delete(id);
+        try {
+            orderPlacedService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

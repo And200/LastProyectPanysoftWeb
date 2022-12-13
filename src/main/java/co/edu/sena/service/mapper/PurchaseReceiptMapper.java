@@ -23,16 +23,19 @@ public interface PurchaseReceiptMapper extends EntityMapper<PurchaseReceiptDTO, 
     @Named("employeeId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "person", source = "person")
     EmployeeDTO toDtoEmployeeId(Employee employee);
 
     @Named("detailSaleProductAmount")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "product", source = "product")
     @Mapping(target = "productAmount", source = "productAmount")
     DetailSaleDTO toDtoDetailSaleProductAmount(DetailSale detailSale);
 
     @Named("clientId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "person", source = "person")
     ClientDTO toDtoClientId(Client client);
 }

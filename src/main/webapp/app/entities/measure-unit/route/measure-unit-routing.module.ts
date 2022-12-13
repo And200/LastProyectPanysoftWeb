@@ -6,6 +6,7 @@ import { MeasureUnitComponent } from '../list/measure-unit.component';
 import { MeasureUnitDetailComponent } from '../detail/measure-unit-detail.component';
 import { MeasureUnitUpdateComponent } from '../update/measure-unit-update.component';
 import { MeasureUnitRoutingResolveService } from './measure-unit-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const measureUnitRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const measureUnitRoute: Routes = [
     component: MeasureUnitComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const measureUnitRoute: Routes = [
     resolve: {
       measureUnit: MeasureUnitRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const measureUnitRoute: Routes = [
     resolve: {
       measureUnit: MeasureUnitRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const measureUnitRoute: Routes = [
     component: MeasureUnitUpdateComponent,
     resolve: {
       measureUnit: MeasureUnitRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

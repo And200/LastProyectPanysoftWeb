@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -94,7 +95,6 @@ public class PurchaseReceiptResource {
         if (!Objects.equals(id, purchaseReceiptDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!purchaseReceiptRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
@@ -130,13 +130,10 @@ public class PurchaseReceiptResource {
         if (!Objects.equals(id, purchaseReceiptDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!purchaseReceiptRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
         Optional<PurchaseReceiptDTO> result = purchaseReceiptService.partialUpdate(purchaseReceiptDTO);
-
         return ResponseUtil.wrapOrNotFound(
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, purchaseReceiptDTO.getId().toString())
@@ -191,7 +188,11 @@ public class PurchaseReceiptResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')or hasAuthority('" + AuthoritiesConstants.CASHIER + "')")
     public ResponseEntity<Void> deletePurchaseReceipt(@PathVariable Long id) {
         log.debug("REST request to delete PurchaseReceipt : {}", id);
-        purchaseReceiptService.delete(id);
+        try {
+            purchaseReceiptService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

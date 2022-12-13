@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DetailOrder;
 import co.edu.sena.repository.DetailOrderRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.DetailOrderService;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -63,7 +65,7 @@ public class DetailOrderResource {
         if (detailOrderDTO.getId() != null) {
             throw new BadRequestAlertException("A new detailOrder cannot already have an ID", ENTITY_NAME, "idexists");
         } else if (detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber()).isPresent()) {
-            throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "InvoiceNumberExist");
+            throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "invoiceNumberExist");
         }
         DetailOrderDTO result = detailOrderService.save(detailOrderDTO);
         return ResponseEntity
@@ -89,13 +91,17 @@ public class DetailOrderResource {
         @Valid @RequestBody DetailOrderDTO detailOrderDTO
     ) throws URISyntaxException {
         log.debug("REST request to update DetailOrder : {}, {}", id, detailOrderDTO);
+        Optional<DetailOrder> detailOrderOptional = detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber());
         if (detailOrderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (detailOrderOptional.isPresent()) {
+            if (!Objects.equals(detailOrderOptional.get().getId(), detailOrderDTO.getId())) {
+                throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "invoiceNumberExist");
+            }
         }
         if (!Objects.equals(id, detailOrderDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!detailOrderRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
@@ -125,8 +131,13 @@ public class DetailOrderResource {
         @NotNull @RequestBody DetailOrderDTO detailOrderDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update DetailOrder partially : {}, {}", id, detailOrderDTO);
+        Optional<DetailOrder> detailOrderOptional = detailOrderRepository.findByInvoiceNumber(detailOrderDTO.getInvoiceNumber());
         if (detailOrderDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (detailOrderOptional.isPresent()) {
+            if (!Objects.equals(detailOrderOptional.get().getId(), detailOrderDTO.getId())) {
+                throw new BadRequestAlertException("the invoice number already exist ", ENTITY_NAME, "invoiceNumberExist");
+            }
         }
         if (!Objects.equals(id, detailOrderDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -192,7 +203,11 @@ public class DetailOrderResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDetailOrder(@PathVariable Long id) {
         log.debug("REST request to delete DetailOrder : {}", id);
-        detailOrderService.delete(id);
+        try {
+            detailOrderService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

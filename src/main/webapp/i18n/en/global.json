@@ -5,6 +5,21 @@
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+
+      "client": {
+        "main": "Client",
+        "product": "Product",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "baker": {
+        "main": "Baker",
+        "category": "Category",
+        "recip": "Recip",
+        "product": "Product",
+        "presentation": "Presentation",
+        "provider": "Provider",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
       "entities": {
         "main": "Entities",
         "documentType": "Document Type",
@@ -23,6 +38,19 @@
         "detailOrder": "Detail Order",
         "detailAmountRecip": "Detail Amount Recip",
         "provider": "Provider",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "cashier": {
+        "main": "Cashier",
+        "purchaseReceipt": "Purchase Receipt",
+        "detailSale": "Detail Sale",
+        "product": "Product",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "waiter": {
+        "main": "Waiter",
+        "inventory": "Inventory",
+        "product": "Product",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

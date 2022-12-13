@@ -77,7 +77,7 @@
               [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption"
               *ngFor="let employeeOption of employeesSharedCollection; trackBy: trackEmployeeById"
             >
-              {{ employeeOption.id }}
+              {{ employeeOption.person?.name }}
             </option>
           </select>
         </div>
@@ -101,7 +101,7 @@
               "
               *ngFor="let detailSaleOption of detailSalesSharedCollection; trackBy: trackDetailSaleById"
             >
-              {{ detailSaleOption.productAmount }}
+              {{ detailSaleOption.product?.productName }}
             </option>
           </select>
         </div>
@@ -125,7 +125,7 @@
               [ngValue]="clientOption.id === editForm.get('client')!.value?.id ? editForm.get('client')!.value : clientOption"
               *ngFor="let clientOption of clientsSharedCollection; trackBy: trackClientById"
             >
-              {{ clientOption.id }}
+              {{ clientOption.person?.name }}
             </option>
           </select>
         </div>

@@ -1,5 +1,7 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.Person;
+import co.edu.sena.domain.Presentation;
 import co.edu.sena.repository.PresentationRepository;
 import co.edu.sena.security.AuthoritiesConstants;
 import co.edu.sena.service.PresentationService;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -95,8 +98,15 @@ public class PresentationResource {
         @Valid @RequestBody PresentationDTO presentationDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Presentation : {}, {}", id, presentationDTO);
+        Optional<Presentation> presentationOptional = presentationRepository.findByPresentation(presentationDTO.getPresentation());
         if (presentationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (presentationOptional.isPresent()) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
         }
         if (!Objects.equals(id, presentationDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -131,8 +141,15 @@ public class PresentationResource {
         @NotNull @RequestBody PresentationDTO presentationDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Presentation partially : {}, {}", id, presentationDTO);
+        Optional<Presentation> presentationOptional = presentationRepository.findByPresentation(presentationDTO.getPresentation());
         if (presentationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (presentationOptional.isPresent()) {
+            throw new BadRequestAlertException(
+                "A new category cannot have an already existing name Category",
+                ENTITY_NAME,
+                "categoryNameExists"
+            );
         }
         if (!Objects.equals(id, presentationDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -189,7 +206,15 @@ public class PresentationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the presentationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/presentations/{id}")
-    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
+    @PreAuthorize(
+        "hasAuthority('" +
+        AuthoritiesConstants.ADMIN +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.BAKER +
+        "')or hasAuthority('" +
+        AuthoritiesConstants.CASHIER +
+        "')"
+    )
     public ResponseEntity<PresentationDTO> getPresentation(@PathVariable Long id) {
         log.debug("REST request to get Presentation : {}", id);
         Optional<PresentationDTO> presentationDTO = presentationService.findOne(id);
@@ -206,7 +231,11 @@ public class PresentationResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deletePresentation(@PathVariable Long id) {
         log.debug("REST request to delete Presentation : {}", id);
-        presentationService.delete(id);
+        try {
+            presentationService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

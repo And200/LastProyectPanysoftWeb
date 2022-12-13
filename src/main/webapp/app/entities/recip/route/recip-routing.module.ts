@@ -6,6 +6,7 @@ import { RecipComponent } from '../list/recip.component';
 import { RecipDetailComponent } from '../detail/recip-detail.component';
 import { RecipUpdateComponent } from '../update/recip-update.component';
 import { RecipRoutingResolveService } from './recip-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const recipRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const recipRoute: Routes = [
     component: RecipComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const recipRoute: Routes = [
     resolve: {
       recip: RecipRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const recipRoute: Routes = [
     resolve: {
       recip: RecipRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const recipRoute: Routes = [
     component: RecipUpdateComponent,
     resolve: {
       recip: RecipRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },

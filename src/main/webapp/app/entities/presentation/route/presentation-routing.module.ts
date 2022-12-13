@@ -6,6 +6,7 @@ import { PresentationComponent } from '../list/presentation.component';
 import { PresentationDetailComponent } from '../detail/presentation-detail.component';
 import { PresentationUpdateComponent } from '../update/presentation-update.component';
 import { PresentationRoutingResolveService } from './presentation-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const presentationRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const presentationRoute: Routes = [
     component: PresentationComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -21,6 +23,9 @@ const presentationRoute: Routes = [
     component: PresentationDetailComponent,
     resolve: {
       presentation: PresentationRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },

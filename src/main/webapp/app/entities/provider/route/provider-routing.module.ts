@@ -6,6 +6,7 @@ import { ProviderComponent } from '../list/provider.component';
 import { ProviderDetailComponent } from '../detail/provider-detail.component';
 import { ProviderUpdateComponent } from '../update/provider-update.component';
 import { ProviderRoutingResolveService } from './provider-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const providerRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const providerRoute: Routes = [
     component: ProviderComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN, Authority.BAKER],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const providerRoute: Routes = [
     resolve: {
       provider: ProviderRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN, Authority.BAKER],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const providerRoute: Routes = [
     resolve: {
       provider: ProviderRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const providerRoute: Routes = [
     component: ProviderUpdateComponent,
     resolve: {
       provider: ProviderRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

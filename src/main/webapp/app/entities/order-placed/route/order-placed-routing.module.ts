@@ -6,6 +6,7 @@ import { OrderPlacedComponent } from '../list/order-placed.component';
 import { OrderPlacedDetailComponent } from '../detail/order-placed-detail.component';
 import { OrderPlacedUpdateComponent } from '../update/order-placed-update.component';
 import { OrderPlacedRoutingResolveService } from './order-placed-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const orderPlacedRoute: Routes = [
   {
@@ -13,6 +14,7 @@ const orderPlacedRoute: Routes = [
     component: OrderPlacedComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -22,6 +24,9 @@ const orderPlacedRoute: Routes = [
     resolve: {
       orderPlaced: OrderPlacedRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -30,6 +35,9 @@ const orderPlacedRoute: Routes = [
     resolve: {
       orderPlaced: OrderPlacedRoutingResolveService,
     },
+    data: {
+      authorities: [Authority.ADMIN],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +45,9 @@ const orderPlacedRoute: Routes = [
     component: OrderPlacedUpdateComponent,
     resolve: {
       orderPlaced: OrderPlacedRoutingResolveService,
+    },
+    data: {
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },

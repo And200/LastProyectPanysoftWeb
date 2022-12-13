@@ -17,5 +17,7 @@ public final class AuthoritiesConstants {
 
     public static final String BAKER = "ROLE_PANADERO";
 
+    public static final String CLIENT = "ROLE_CLIENTE";
+
     private AuthoritiesConstants() {}
 }

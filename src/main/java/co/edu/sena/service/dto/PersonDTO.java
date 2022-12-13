@@ -78,7 +78,7 @@ public class PersonDTO implements Serializable {
         if (this.id == null) {
             return false;
         }
-        return Objects.equals(this.id, personDTO.id);
+        return (Objects.equals(this.id, personDTO.id));
     }
 
     @Override

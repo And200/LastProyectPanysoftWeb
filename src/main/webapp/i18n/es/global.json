@@ -5,26 +5,56 @@
     "menu": {
       "home": "Inicio",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
-      "entities": {
-        "main": "Entidades",
-        "documentType": "Document Type",
-        "person": "Person",
-        "client": "Client",
-        "employee": "Employee",
-        "purchaseReceipt": "Purchase Receipt",
-        "detailSale": "Detail Sale",
-        "category": "Category",
-        "measureUnit": "Measure Unit",
-        "recip": "Recip",
-        "product": "Product",
-        "inventory": "Inventory",
-        "presentation": "Presentation",
-        "orderPlaced": "Order Placed",
-        "detailOrder": "Detail Order",
-        "detailAmountRecip": "Detail Amount Recip",
-        "provider": "Provider",
+
+      "client": {
+        "main": "Cliente",
+        "product": "Productos",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "cashier": {
+        "main": "cajero",
+        "purchaseReceipt": "Recibo De Compra",
+        "detailSale": "Detalle De Venta",
+        "product": "Productos",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "waiter": {
+        "main": "mesero",
+        "inventory": "Inventario",
+        "product": "Productos",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+      "entities": {
+        "main": "Entidades",
+        "documentType": "Tipo De documento",
+        "person": "Persona",
+        "client": "Cliente",
+        "employee": "Empleado",
+        "purchaseReceipt": "Recibo De Compra",
+        "detailSale": "Detalle De Venta",
+        "category": "Categoría",
+        "measureUnit": "Unidad De Medida",
+        "recip": "Receta",
+        "product": "Productos",
+        "inventory": "Inventario",
+        "presentation": "Presentación",
+        "orderPlaced": "Pedido Realizado",
+        "detailOrder": "Detalle De Orden",
+        "detailAmountRecip": "Detalle Cantidad Receta",
+        "provider": "Proveedor",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+
+      "baker": {
+        "main": "Panadero",
+        "category": "Categoría",
+        "recip": "Receta",
+        "product": "Productos",
+        "presentation": "Presentación",
+        "provider": "Proveedor",
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+      },
+
       "account": {
         "main": "Cuenta",
         "settings": "Ajustes",

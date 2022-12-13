@@ -1,5 +1,6 @@
 package co.edu.sena.web.rest;
 
+import co.edu.sena.domain.DetailAmountRecip;
 import co.edu.sena.domain.Product;
 import co.edu.sena.domain.Recip;
 import co.edu.sena.repository.DetailAmountRecipRepository;
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -77,9 +79,7 @@ public class DetailAmountRecipResource {
         throws URISyntaxException {
         log.debug("REST request to save DetailAmountRecip : {}", detailAmountRecipDTO);
         Optional<Recip> recipOptional = recipRepository.findById(detailAmountRecipDTO.getRecip().getId());
-
         Optional<Product> productOptional = productRepository.findById(detailAmountRecipDTO.getProduct().getId());
-
         if (detailAmountRecipDTO.getId() != null) {
             throw new BadRequestAlertException("A new detailAmountRecip cannot already have an ID", ENTITY_NAME, "idexists");
         } else if (recipOptional.isEmpty()) {
@@ -114,8 +114,22 @@ public class DetailAmountRecipResource {
         @Valid @RequestBody DetailAmountRecipDTO detailAmountRecipDTO
     ) throws URISyntaxException {
         log.debug("REST request to update DetailAmountRecip : {}, {}", id, detailAmountRecipDTO);
+        Optional<Recip> recipOptional = recipRepository.findById(detailAmountRecipDTO.getRecip().getId());
+        Optional<Product> productOptional = productRepository.findById(detailAmountRecipDTO.getProduct().getId());
+        Optional<DetailAmountRecip> detailAmountRecipOptional = Optional.empty();
+        if (productOptional.isPresent() && recipOptional.isPresent()) {
+            detailAmountRecipOptional = detailAmountRecipRepository.findByProductAndRecip(productOptional.get(), recipOptional.get());
+        }
         if (detailAmountRecipDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        } else if (detailAmountRecipOptional.isPresent()) {
+            if (!Objects.equals(detailAmountRecipOptional.get().getId(), detailAmountRecipDTO.getId())) {
+                throw new BadRequestAlertException(
+                    "There is already a product with these characteristics",
+                    ENTITY_NAME,
+                    "detailAlreadyExists"
+                );
+            }
         }
         if (!Objects.equals(id, detailAmountRecipDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
@@ -217,7 +231,11 @@ public class DetailAmountRecipResource {
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteDetailAmountRecip(@PathVariable Long id) {
         log.debug("REST request to delete DetailAmountRecip : {}", id);
-        detailAmountRecipService.delete(id);
+        try {
+            detailAmountRecipService.delete(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestAlertException("This register depends of  other entity", ENTITY_NAME, "entityDepends");
+        }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

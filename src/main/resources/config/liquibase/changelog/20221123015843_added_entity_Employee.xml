@@ -15,7 +15,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_employee__user_id" />
+                <constraints nullable="false"  />
             </column>
             <column name="person_id" type="bigint">
                 <constraints nullable="false" />
