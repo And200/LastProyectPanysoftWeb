@@ -5,6 +5,7 @@ on:
       - main
       - develop
       - backup
+      - yerman
   pull_request:
     types: [opened, synchronize, reopened]
 
